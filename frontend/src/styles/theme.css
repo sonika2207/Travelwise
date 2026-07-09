@@ -1,0 +1,173 @@
+/* ============================================
+   TravelWise — CSS Theme Variables
+   Light and Dark mode tokens via data-theme attribute
+   ============================================ */
+
+:root,
+[data-theme='light'] {
+  --tw-bg-app: #FAF9F6;
+  --tw-bg-card: #FFFFFF;
+  --tw-bg-sidebar: #FFFFFF;
+  --tw-bg-input: #FAFAFA;
+  --tw-bg-subtle: #F5F3EE;
+
+  --tw-border: #E8E2D9;
+  --tw-border-light: #F2EEE8;
+
+  --tw-text-heading: #1A1A2E;
+  --tw-text-body: #2D3748;
+  --tw-text-muted: #718096;
+  --tw-text-light: #A0AEC0;
+
+  --tw-shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(232, 226, 217, 0.8);
+  --tw-shadow-card-hover: 0 8px 32px rgba(74, 144, 217, 0.18);
+  --tw-shadow-stat: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+  --tw-countdown-bg: linear-gradient(135deg, #FEF9E7, #FFF3EE);
+  --tw-countdown-border: rgba(249, 199, 79, 0.35);
+  --tw-countdown-unit-bg: #FFFFFF;
+
+  --tw-notif-border: #FFFFFF;
+
+  --tw-active-nav-bg: #EBF4FF;
+  --tw-active-nav-color: #4A90D9;
+
+  --tw-stat-plane-bg: rgba(74, 144, 217, 0.12);
+  --tw-stat-plane-color: #4A90D9;
+  --tw-stat-pin-bg: rgba(78, 205, 196, 0.12);
+  --tw-stat-pin-color: #4ECDC4;
+  --tw-stat-tent-bg: rgba(107, 203, 119, 0.12);
+  --tw-stat-tent-color: #6BCB77;
+  --tw-stat-timer-bg: rgba(249, 199, 79, 0.12);
+  --tw-stat-timer-color: #7A5000;
+
+  --tw-filter-active-bg: #FFFFFF;
+  --tw-filter-active-color: #4A90D9;
+
+  --tw-badge-planning-bg: #FEF9E7;
+  --tw-badge-planning-color: #7A5000;
+  --tw-badge-planning-border: #FDD835;
+  --tw-badge-upcoming-bg: #EBF4FF;
+  --tw-badge-upcoming-color: #1565C0;
+  --tw-badge-upcoming-border: #BBDEFB;
+  --tw-badge-ongoing-bg: #EDFAFA;
+  --tw-badge-ongoing-color: #00796B;
+  --tw-badge-ongoing-border: #80CBC4;
+  --tw-badge-completed-bg: #F5F3EE;
+  --tw-badge-completed-color: #546E7A;
+  --tw-badge-completed-border: #CFD8DC;
+
+  --tw-card-footer-bg: #F5F3EE;
+  --tw-card-footer-border: #F2EEE8;
+  --tw-btn-icon-bg: #F5F3EE;
+  --tw-btn-icon-hover: #FFFFFF;
+  --tw-btn-icon-border: #E8E2D9;
+  --tw-progress-track: #F2EEE8;
+
+  --tw-toggle-bg: #E8E2D9;
+  --tw-toggle-thumb: #FFFFFF;
+
+  --tw-trip-pill-bg: linear-gradient(135deg, #FEF9E7, #FFF3EE);
+  --tw-trip-pill-border: rgba(249, 199, 79, 0.3);
+
+  --tw-hero-gradient: linear-gradient(135deg, #4A90D9 0%, #4ECDC4 60%, #6BCB77 100%);
+  --tw-hero-search-bg: rgba(255,255,255,0.20);
+  --tw-hero-search-border: rgba(255,255,255,0.35);
+
+  /* Brand colors */
+  --tw-sky: #4A90D9;
+  --tw-sky-dark: #2E6DAD;
+  --tw-sky-light: #EBF4FF;
+  --tw-teal: #4ECDC4;
+  --tw-teal-light: #EDFAFA;
+
+  /* Border radius tokens */
+  --tw-r-sm: 8px;
+  --tw-r-md: 12px;
+  --tw-r-lg: 16px;
+  --tw-r-xl: 20px;
+}
+
+[data-theme='dark'] {
+  --tw-bg-app: #1A1C2A;
+  --tw-bg-card: #242637;
+  --tw-bg-sidebar: #1E2030;
+  --tw-bg-input: #2A2C3E;
+  --tw-bg-subtle: #2E3045;
+
+  --tw-border: #3A3D55;
+  --tw-border-light: #32354A;
+
+  --tw-text-heading: #F0EEF8;
+  --tw-text-body: #C8C6D8;
+  --tw-text-muted: #8E8CAA;
+  --tw-text-light: #5E5C7A;
+
+  --tw-shadow-card: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --tw-shadow-card-hover: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --tw-shadow-stat: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+  --tw-countdown-bg: linear-gradient(135deg, #3a3020, #3a2a20);
+  --tw-countdown-border: rgba(249, 199, 79, 0.25);
+  --tw-countdown-unit-bg: #242637;
+
+  --tw-notif-border: #242637;
+
+  --tw-active-nav-bg: rgba(74, 144, 217, 0.15);
+  --tw-active-nav-color: #6FA8E0;
+
+  --tw-stat-plane-bg: rgba(74, 144, 217, 0.18);
+  --tw-stat-plane-color: #6FA8E0;
+  --tw-stat-pin-bg: rgba(78, 205, 196, 0.18);
+  --tw-stat-pin-color: #5FD1C8;
+  --tw-stat-tent-bg: rgba(107, 203, 119, 0.18);
+  --tw-stat-tent-color: #7FD98B;
+  --tw-stat-timer-bg: rgba(249, 199, 79, 0.18);
+  --tw-stat-timer-color: #F9C74F;
+
+  --tw-filter-active-bg: #242637;
+  --tw-filter-active-color: #6FA8E0;
+
+  --tw-badge-planning-bg: #3a3020;
+  --tw-badge-planning-color: #F9C74F;
+  --tw-badge-planning-border: rgba(249, 199, 79, 0.3);
+  --tw-badge-upcoming-bg: rgba(74, 144, 217, 0.15);
+  --tw-badge-upcoming-color: #6FA8E0;
+  --tw-badge-upcoming-border: rgba(74, 144, 217, 0.3);
+  --tw-badge-ongoing-bg: rgba(78, 205, 196, 0.15);
+  --tw-badge-ongoing-color: #5FD1C8;
+  --tw-badge-ongoing-border: rgba(78, 205, 196, 0.3);
+  --tw-badge-completed-bg: rgba(94, 92, 122, 0.2);
+  --tw-badge-completed-color: #8E8CAA;
+  --tw-badge-completed-border: rgba(94, 92, 122, 0.3);
+
+  --tw-card-footer-bg: #2E3045;
+  --tw-card-footer-border: #32354A;
+  --tw-btn-icon-bg: #2E3045;
+  --tw-btn-icon-hover: #3A3D55;
+  --tw-btn-icon-border: #3A3D55;
+  --tw-progress-track: #32354A;
+
+  --tw-toggle-bg: #4A90D9;
+  --tw-toggle-thumb: #FFFFFF;
+
+  --tw-trip-pill-bg: linear-gradient(135deg, #3a3020, #3a2a20);
+  --tw-trip-pill-border: rgba(249, 199, 79, 0.25);
+
+  --tw-hero-gradient: linear-gradient(135deg, #4A90D9 0%, #4ECDC4 60%, #3a8f52 100%);
+  --tw-hero-search-bg: rgba(255,255,255,0.15);
+  --tw-hero-search-border: rgba(255,255,255,0.25);
+
+  /* Brand colors */
+  --tw-sky: #6FA8E0;
+  --tw-sky-dark: #4A90D9;
+  --tw-sky-light: rgba(74, 144, 217, 0.12);
+  --tw-teal: #5FD1C8;
+  --tw-teal-light: rgba(78, 205, 196, 0.12);
+
+  /* Border radius tokens */
+  --tw-r-sm: 8px;
+  --tw-r-md: 12px;
+  --tw-r-lg: 16px;
+  --tw-r-xl: 20px;
+}
