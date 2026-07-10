@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from 'react';
-import Sidebar from '../components/dashboard/Sidebar';
 import Topbar from '../components/dashboard/Topbar';
 import FilterTabs from '../components/dashboard/FilterTabs';
 import TripGrid from '../components/dashboard/TripGrid';
@@ -9,28 +8,9 @@ import { useTrips } from '../hooks/useTrips';
 import { motion } from 'framer-motion';
 
 const MyTrips = () => {
-  const { trips, loading } = useTrips();
+  const { trips, loading, refetch } = useTrips();
   const [activeTab, setActiveTab] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-
-  // Find nearest upcoming trip for Sidebar pill
-  const upcomingTrip = useMemo(() => {
-    const today = new Date();
-    const upcoming = trips
-      .filter((t) => {
-        const status = t.tripStatus?.toUpperCase();
-        return status === 'UPCOMING' || status === 'PLANNING';
-      })
-      .filter((t) => t.startDate && new Date(t.startDate + 'T00:00:00') > today)
-      .sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
-
-    if (upcoming.length === 0) return null;
-
-    const nearest = upcoming[0];
-    const diffMs = new Date(nearest.startDate + 'T00:00:00') - today;
-    const daysUntil = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-    return { ...nearest, daysUntil };
-  }, [trips]);
 
   // Filter trips by tab
   const tabFilteredTrips = useMemo(() => {
@@ -52,11 +32,8 @@ const MyTrips = () => {
   }, [tabFilteredTrips, searchQuery]);
 
   return (
-    <div className="flex min-h-screen bg-[var(--tw-bg-app)] text-[var(--tw-text-body)] transition-colors duration-300">
-      <Sidebar upcomingTrip={upcomingTrip} />
-
-      <div className="flex-1 flex flex-col min-w-0">
-        <Topbar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+    <>
+      <Topbar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
 
         <div className="p-8 flex-1">
           {loading ? (
@@ -80,13 +57,12 @@ const MyTrips = () => {
                   </div>
                 )
               ) : (
-                <TripGrid trips={filteredTrips} />
+                <TripGrid trips={filteredTrips} onRefresh={refetch} />
               )}
             </motion.div>
           )}
-        </div>
       </div>
-    </div>
+    </>
   );
 };
 

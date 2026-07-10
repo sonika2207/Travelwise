@@ -52,7 +52,7 @@ const Register = () => {
     >
       <div className="flex items-center gap-2.5 mb-7">
         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky to-teal flex items-center justify-center text-xl shadow-[0_2px_8px_rgba(74,144,217,0.3)]">✈️</div>
-        <div className="font-serif text-[22px] font-bold text-text-heading">Wanderly</div>
+        <div className="font-serif text-[22px] font-bold text-text-heading">TravelWise</div>
       </div>
       
       <div className="font-serif text-[28px] font-bold text-text-heading leading-[1.2] mb-1.5">Start your adventure 🌍</div>

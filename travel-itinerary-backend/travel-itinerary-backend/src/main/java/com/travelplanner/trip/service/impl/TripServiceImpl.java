@@ -132,11 +132,15 @@ public class TripServiceImpl implements TripService {
         trip = tripRepository.save(trip);
         
         if (datesChanged) {
-            // For now, simply recreate the days if dates change.
-            dayRepository.deleteAll(trip.getDays());
+            // Clear in-place — orphanRemoval=true handles the DB deletes automatically.
+            // Never call setDays() on a managed entity; it replaces the tracked collection
+            // reference and Hibernate throws: "collection with orphan deletion no longer referenced".
             trip.getDays().clear();
             createDaysForTrip(trip);
         }
+
+        // Notify user that their trip has been updated
+        emailService.sendTripUpdatedEmail(trip);
 
         return mapToTripResponse(trip);
     }
@@ -168,24 +172,32 @@ public class TripServiceImpl implements TripService {
     }
 
     private void createDaysForTrip(Trip trip) {
-        List<Day> days = new ArrayList<>();
+        List<Day> newDays = new ArrayList<>();
         LocalDate currentDate = trip.getStartDate();
         int dayNumber = 1;
-        
+
         while (!currentDate.isAfter(trip.getEndDate())) {
             Day day = Day.builder()
                     .trip(trip)
                     .dayNumber(dayNumber)
                     .tripDate(currentDate)
                     .build();
-            days.add(day);
-            
+            newDays.add(day);
+
             dayNumber++;
             currentDate = currentDate.plusDays(1);
         }
-        
-        dayRepository.saveAll(days);
-        trip.setDays(days);
+
+        dayRepository.saveAll(newDays);
+
+        // For new trips the collection may be null — initialise it.
+        // For existing trips (update flow) the collection is already managed by Hibernate;
+        // we must ADD to it, never replace the reference, to avoid the orphanRemoval error.
+        if (trip.getDays() == null) {
+            trip.setDays(new ArrayList<>(newDays));
+        } else {
+            trip.getDays().addAll(newDays);
+        }
     }
 
     private long calculateTripDuration(LocalDate startDate, LocalDate endDate) {

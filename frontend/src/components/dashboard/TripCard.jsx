@@ -1,5 +1,8 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-toastify';
+import { tripApi } from '../../api/tripApi';
 
 // Map status strings to badge styles (using theme variables)
 const STATUS_BADGE = {
@@ -29,10 +32,32 @@ const formatDateRange = (start, end) => {
     : s.toLocaleDateString('en-US', opts);
 };
 
-const TripCard = ({ trip, index, onNavigate }) => {
+const TripCard = ({ trip, index, onNavigate, onRefresh }) => {
+  const navigate = useNavigate();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  
   const statusKey = trip.tripStatus?.toUpperCase() || 'PLANNING';
   const badge = STATUS_BADGE[statusKey] || STATUS_BADGE.PLANNING;
   const gradient = COVER_GRADIENTS[index % COVER_GRADIENTS.length];
+
+  const handleEdit = (e) => {
+    e.stopPropagation();
+    navigate(`/trips/${trip.id}/edit`);
+  };
+
+  const handleDelete = async (e) => {
+    e.stopPropagation();
+    setShowDropdown(false);
+    setConfirmDelete(false);
+    try {
+      await tripApi.deleteTrip(trip.id);
+      toast.success('Trip deleted successfully');
+      if (onRefresh) onRefresh();
+    } catch (err) {
+      toast.error('Failed to delete trip');
+    }
+  };
 
   return (
     <motion.div
@@ -103,11 +128,49 @@ const TripCard = ({ trip, index, onNavigate }) => {
           {badge.label}
         </span>
         <div className="flex gap-1.5">
-          <div className="w-9 h-9 rounded-lg flex items-center justify-center text-[var(--tw-text-muted)] border border-[var(--tw-btn-icon-border)] cursor-pointer text-sm hover:bg-[var(--tw-btn-icon-hover)] bg-[var(--tw-btn-icon-bg)] transition-colors">
+          <div 
+            onClick={handleEdit}
+            className="w-9 h-9 rounded-lg flex items-center justify-center text-[var(--tw-text-muted)] border border-[var(--tw-btn-icon-border)] cursor-pointer text-sm hover:bg-[var(--tw-btn-icon-hover)] bg-[var(--tw-btn-icon-bg)] transition-colors"
+          >
             ✏
           </div>
-          <div className="w-9 h-9 rounded-lg flex items-center justify-center text-[var(--tw-text-muted)] border border-[var(--tw-btn-icon-border)] cursor-pointer text-sm hover:bg-[var(--tw-btn-icon-hover)] bg-[var(--tw-btn-icon-bg)] transition-colors">
-            ⋮
+          <div className="relative">
+            <div 
+              onClick={(e) => { e.stopPropagation(); setShowDropdown(!showDropdown); setConfirmDelete(false); }}
+              className="w-9 h-9 rounded-lg flex items-center justify-center text-[var(--tw-text-muted)] border border-[var(--tw-btn-icon-border)] cursor-pointer text-sm hover:bg-[var(--tw-btn-icon-hover)] bg-[var(--tw-btn-icon-bg)] transition-colors"
+            >
+              ⋮
+            </div>
+            
+            <AnimatePresence>
+              {showDropdown && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                  transition={{ duration: 0.15 }}
+                  onClick={(e) => e.stopPropagation()}
+                  className="absolute right-0 bottom-full mb-2 w-36 bg-white border border-gray-200 shadow-xl rounded-lg overflow-hidden z-20"
+                >
+                  {!confirmDelete ? (
+                    <div 
+                      onClick={(e) => { e.stopPropagation(); setConfirmDelete(true); }}
+                      className="px-4 py-2.5 text-[13px] font-semibold text-[#E53E3E] cursor-pointer hover:bg-red-50 flex items-center gap-2 transition-colors"
+                    >
+                      <span>🗑</span> Delete Trip
+                    </div>
+                  ) : (
+                    <div className="p-3 bg-red-50" onClick={e => e.stopPropagation()}>
+                      <p className="text-[11px] font-bold text-[#E53E3E] mb-2 text-center">Are you sure?</p>
+                      <div className="flex gap-2">
+                        <button onClick={handleDelete} className="flex-1 bg-[#E53E3E] text-white rounded-[6px] text-[11px] py-1.5 font-semibold hover:bg-red-600 transition-colors">Yes</button>
+                        <button onClick={() => setConfirmDelete(false)} className="flex-1 bg-white text-gray-700 border border-gray-200 rounded-[6px] text-[11px] py-1.5 font-semibold hover:bg-gray-100 transition-colors">No</button>
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>

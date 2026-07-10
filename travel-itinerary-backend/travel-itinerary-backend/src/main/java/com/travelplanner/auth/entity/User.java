@@ -43,6 +43,9 @@ public class User {
     @Column(name = "home_currency")
     private String homeCurrency;
 
+    @Column(name = "profile_photo_url")
+    private String profilePhotoUrl;
+
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

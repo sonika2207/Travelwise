@@ -14,8 +14,10 @@ const CATEGORY_ICONS = {
   'Miscellaneous': '🎭'
 };
 
+const generationPromises = new Map();
+
 const TripPacking = () => {
-  const { trip } = useOutletContext();
+  const { trip, refreshStats } = useOutletContext();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('All');
@@ -33,7 +35,14 @@ const TripPacking = () => {
       // If list is empty, auto-generate it
       if (data.length === 0) {
         setIsGenerating(true);
-        await packingApi.generate(trip.id);
+        let genPromise = generationPromises.get(trip.id);
+        if (!genPromise) {
+          genPromise = packingApi.generate(trip.id).finally(() => {
+            generationPromises.delete(trip.id);
+          });
+          generationPromises.set(trip.id, genPromise);
+        }
+        await genPromise;
         data = await packingApi.getItems(trip.id);
         setIsGenerating(false);
       }
@@ -43,8 +52,9 @@ const TripPacking = () => {
       setIsGenerating(false);
     } finally {
       setLoading(false);
+      if (refreshStats) refreshStats();
     }
-  }, [trip?.id]);
+  }, [trip?.id, refreshStats]);
 
   useEffect(() => {
     loadPackingList();
@@ -55,6 +65,7 @@ const TripPacking = () => {
     setItems((prev) => prev.map((item) => item.id === itemId ? { ...item, checked: !item.checked } : item));
     try {
       await packingApi.toggle(itemId);
+      if (refreshStats) refreshStats();
     } catch (err) {
       toast.error('Failed to update item status.');
       // Revert on error
@@ -63,10 +74,10 @@ const TripPacking = () => {
   };
 
   const deleteItem = async (itemId) => {
-    if (!window.confirm('Are you sure you want to delete this item?')) return;
     try {
       await packingApi.delete(itemId);
       setItems((prev) => prev.filter((item) => item.id !== itemId));
+      if (refreshStats) refreshStats();
     } catch (err) {
       toast.error('Failed to delete item.');
     }
@@ -84,6 +95,7 @@ const TripPacking = () => {
       setItems((prev) => [...prev, added]);
       setNewItemName('');
       setShowAddForm(false);
+      if (refreshStats) refreshStats();
     } catch (err) {
       toast.error('Failed to add custom item.');
     }

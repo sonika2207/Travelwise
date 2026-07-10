@@ -27,11 +27,13 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error) => {
-    // On 401 Unauthorized (e.g. expired or invalid JWT), clear stale credentials and redirect to login
+    // On 401 Unauthorized (e.g. expired or invalid JWT), clear stale credentials
+    // Use a custom event instead of window.location.href to avoid hard full-page reloads
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      window.location.href = '/login';
+      // Dispatch a custom event — AuthContext listens for this and uses React Router navigate()
+      window.dispatchEvent(new Event('auth:logout'));
     }
     return Promise.reject(error);
   }

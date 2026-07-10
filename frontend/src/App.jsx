@@ -7,6 +7,7 @@ import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { NotificationProvider } from './context/NotificationContext';
 import ProtectedRoute from './routes/ProtectedRoute';
+import MainLayout from './components/layout/MainLayout';
 
 import './styles/theme.css';
 
@@ -23,6 +24,8 @@ import TripWeather from './pages/TripWeather';
 import TripPacking from './pages/TripPacking';
 import TripBudget from './pages/TripBudget';
 import TripMap from './pages/TripMap';
+import AccountSettings from './pages/AccountSettings';
+import HelpSupport from './pages/HelpSupport';
 
 function App() {
   return (
@@ -36,19 +39,23 @@ function App() {
             <Route path="/register" element={<Register />} />
             
             <Route element={<ProtectedRoute />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/trips" element={<MyTrips />} />
-              <Route path="/trips/new" element={<CreateTrip />} />
-              <Route path="/trips/:id/edit" element={<CreateTrip />} />
-              
-              <Route path="/trips/:id" element={<TripLayout />}>
-                <Route index element={<TripOverview />} />
-                <Route path="itinerary" element={<TripItinerary />} />
-                <Route path="weather" element={<TripWeather />} />
-                <Route path="packing" element={<TripPacking />} />
-                <Route path="budget" element={<TripBudget />} />
-                <Route path="map" element={<TripMap />} />
-                <Route path="*" element={<TripOverview />} />
+              <Route element={<MainLayout />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/trips" element={<MyTrips />} />
+                <Route path="/trips/new" element={<CreateTrip />} />
+                <Route path="/trips/:id/edit" element={<CreateTrip />} />
+                <Route path="/settings" element={<AccountSettings />} />
+                <Route path="/support" element={<HelpSupport />} />
+                
+                <Route path="/trips/:id" element={<TripLayout />}>
+                  <Route index element={<TripOverview />} />
+                  <Route path="itinerary" element={<TripItinerary />} />
+                  <Route path="weather" element={<TripWeather />} />
+                  <Route path="packing" element={<TripPacking />} />
+                  <Route path="budget" element={<TripBudget />} />
+                  <Route path="map" element={<TripMap />} />
+                  <Route path="*" element={<TripOverview />} />
+                </Route>
               </Route>
             </Route>
             

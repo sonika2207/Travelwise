@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 import axiosInstance from '../api/axios';
 import { motion } from 'framer-motion';
 
-import Sidebar from '../components/dashboard/Sidebar';
 import Topbar from '../components/dashboard/Topbar';
 import { useTrips } from '../hooks/useTrips';
 
@@ -191,11 +190,8 @@ const CreateTrip = () => {
   ];
 
   return (
-    <div className="flex min-h-screen bg-[var(--tw-bg-app)] text-[var(--tw-text-body)] transition-colors duration-300">
-      <Sidebar upcomingTrip={upcomingTrip} />
-
-      <div className="flex-1 flex flex-col min-w-0">
-        <Topbar title={isEditMode ? "Edit trip" : "Create new trip"} />
+    <>
+      <Topbar title={isEditMode ? "Edit trip" : "Create new trip"} />
 
         <div className="p-8 flex-1 overflow-y-auto">
           {initialLoading ? (
@@ -393,9 +389,8 @@ const CreateTrip = () => {
             </form>
           </motion.div>
           )}
-        </div>
       </div>
-    </div>
+    </>
   );
 };
 

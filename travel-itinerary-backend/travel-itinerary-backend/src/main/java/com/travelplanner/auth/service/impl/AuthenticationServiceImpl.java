@@ -54,6 +54,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .token(jwtToken)
                 .name(user.getName())
                 .email(user.getEmail())
+                .profilePhotoUrl(user.getProfilePhotoUrl())
                 .build();
     }
 
@@ -80,6 +81,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .token(jwtToken)
                 .name(user.getName())
                 .email(user.getEmail())
+                .profilePhotoUrl(user.getProfilePhotoUrl())
                 .build();
     }
 }

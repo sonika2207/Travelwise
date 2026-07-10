@@ -14,13 +14,23 @@ export const useTrips = () => {
       const data = await tripApi.getAllTrips();
       setTrips(data);
 
-      // Auto-fetch cover photos for trips missing one (fire-and-forget, then reload)
+      // Auto-fetch cover photos for trips missing one (background, no loading flash)
       const missingPhotos = data.filter(t => !t.coverPhotoUrl);
       if (missingPhotos.length > 0) {
-        await Promise.allSettled(missingPhotos.map(t => tripApi.fetchCoverPhoto(t.id)));
-        // Reload trips so cards show the newly fetched photos
-        const updated = await tripApi.getAllTrips();
-        setTrips(updated);
+        // Finish showing content first, then silently refresh photos in background
+        setLoading(false);
+        const results = await Promise.allSettled(
+          missingPhotos.map(t => tripApi.fetchCoverPhoto(t.id))
+        );
+        // Only re-fetch if at least one photo was actually saved
+        const anySucceeded = results.some(
+          r => r.status === 'fulfilled' && r.value?.coverPhotoUrl
+        );
+        if (anySucceeded) {
+          const updated = await tripApi.getAllTrips();
+          setTrips(updated);
+        }
+        return; // loading already set to false above
       }
     } catch (err) {
       const message = err.response?.data?.message || 'Failed to load trips. Please try again.';

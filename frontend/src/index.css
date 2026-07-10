@@ -276,7 +276,7 @@
   /* Weather Specific Styles */
   .weather-hero {
     background: linear-gradient(135deg, var(--color-sky) 0%, var(--color-teal) 100%);
-    @apply rounded-[var(--tw-r-2xl)] p-[32px_36px] mb-[24px] text-white relative overflow-hidden;
+    @apply rounded-[28px] p-[32px_36px] mb-[24px] text-white relative overflow-hidden;
   }
 
   .weather-hero::after {
@@ -421,7 +421,7 @@
   /* Trip Packing Specific Styles */
   .packing-hero {
     background: linear-gradient(135deg, var(--color-sage) 0%, var(--color-teal) 100%);
-    @apply rounded-[var(--tw-r-2xl)] p-[28px_32px] text-white mb-[24px];
+    @apply rounded-[28px] p-[28px_32px] text-white mb-[24px];
   }
 
   .packing-hero-title {
@@ -430,12 +430,12 @@
   }
 
   .packing-progress-track {
-    @apply h-[10px] rounded-[var(--tw-r-full)] overflow-hidden mb-[8px];
+    @apply h-[10px] rounded-full overflow-hidden mb-[8px];
     background: rgba(255, 255, 255, 0.25);
   }
 
   .packing-progress-fill {
-    @apply h-full rounded-[var(--tw-r-full)] transition-all duration-500 ease-out;
+    @apply h-full rounded-full transition-all duration-500 ease-out;
     background: rgba(255, 255, 255, 0.90);
   }
 
@@ -453,7 +453,7 @@
   }
 
   .packing-category-tab {
-    @apply flex items-center gap-[7px] p-[9px_16px] rounded-[var(--tw-r-lg)] bg-bg-card border-[1.5px] border-border text-[13px] font-medium text-text-muted cursor-pointer transition-colors whitespace-nowrap;
+    @apply flex items-center gap-[7px] p-[9px_16px] rounded-xl bg-bg-card border-[1.5px] border-border text-[13px] font-medium text-text-muted cursor-pointer transition-colors whitespace-nowrap;
   }
 
   .packing-category-tab.active {

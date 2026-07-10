@@ -26,13 +26,24 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
+  // Listen for 401 events dispatched by the axios interceptor
+  // This avoids window.location.href hard reloads which cause infinite reload loops
+  useEffect(() => {
+    const handleForcedLogout = () => {
+      setUser(null);
+      navigate('/login', { replace: true });
+    };
+    window.addEventListener('auth:logout', handleForcedLogout);
+    return () => window.removeEventListener('auth:logout', handleForcedLogout);
+  }, [navigate]);
+
   const login = async (credentials) => {
     try {
       const data = await authApi.login(credentials);
-      const { token, name, email } = data;
+      const { token, name, email, profilePhotoUrl } = data;
       
       localStorage.setItem('token', token);
-      const userData = { name, email };
+      const userData = { name, email, profilePhotoUrl };
       localStorage.setItem('user', JSON.stringify(userData));
       setUser(userData);
       
@@ -65,12 +76,18 @@ export const AuthProvider = ({ children }) => {
     navigate('/login');
   };
 
+  const updateUser = (updatedFields) => {
+    const merged = { ...user, ...updatedFields };
+    localStorage.setItem('user', JSON.stringify(merged));
+    setUser(merged);
+  };
+
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center text-sky">Loading...</div>;
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
+    <AuthContext.Provider value={{ user, login, register, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

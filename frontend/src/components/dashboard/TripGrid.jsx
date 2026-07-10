@@ -16,7 +16,7 @@ const item = {
   show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } }
 };
 
-const TripGrid = ({ trips }) => {
+const TripGrid = ({ trips, onRefresh }) => {
   const navigate = useNavigate();
 
   return (
@@ -34,6 +34,7 @@ const TripGrid = ({ trips }) => {
           trip={trip}
           index={i}
           onNavigate={() => navigate(`/trips/${trip.id}`)}
+          onRefresh={onRefresh}
         />
         </motion.div>
       ))}

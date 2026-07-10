@@ -4,6 +4,8 @@ import com.travelplanner.auth.entity.User;
 import com.travelplanner.auth.repository.UserRepository;
 import com.travelplanner.currency.entity.ExchangeRate;
 import com.travelplanner.currency.repository.ExchangeRateRepository;
+import com.travelplanner.email.repository.EmailLogRepository;
+import com.travelplanner.email.service.EmailService;
 import com.travelplanner.expense.dto.ExpenseRequest;
 import com.travelplanner.expense.dto.ExpenseResponse;
 import com.travelplanner.expense.dto.ExpenseSummaryResponse;
@@ -23,6 +25,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -37,6 +40,8 @@ public class ExpenseServiceImpl implements ExpenseService {
     private final TripRepository tripRepository;
     private final UserRepository userRepository;
     private final ExchangeRateRepository exchangeRateRepository;
+    private final EmailService emailService;
+    private final EmailLogRepository emailLogRepository;
 
     @Override
     @Transactional
@@ -51,7 +56,12 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .expenseDate(request.getExpenseDate() != null ? request.getExpenseDate() : LocalDate.now())
                 .build();
 
-        return toResponse(expenseRepository.save(expense));
+        ExpenseResponse response = toResponse(expenseRepository.save(expense));
+
+        // Check if a budget threshold has been crossed and send an alert if so
+        checkAndSendBudgetAlert(trip);
+
+        return response;
     }
 
     @Override
@@ -180,4 +190,42 @@ public class ExpenseServiceImpl implements ExpenseService {
     private String resolveNullable(String value) {
         return (value != null && !value.isBlank()) ? value.toUpperCase() : null;
     }
+
+    /**
+     * Checks whether total spending has crossed a budget threshold (80% or 100%)
+     * and sends an alert email if so — but only once per threshold crossing.
+     */
+    private void checkAndSendBudgetAlert(Trip trip) {
+        if (trip.getBudget() == null || trip.getBudget() <= 0) return;
+
+        List<Expense> allExpenses = expenseRepository.findByTrip(trip);
+        BigDecimal totalSpent = allExpenses.stream()
+                .map(Expense::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal budget = BigDecimal.valueOf(trip.getBudget());
+        BigDecimal percentBD = totalSpent
+                .multiply(BigDecimal.valueOf(100))
+                .divide(budget, 0, RoundingMode.HALF_UP);
+        int percent = percentBD.intValue();
+
+        // Check thresholds in descending order — send the highest applicable one
+        LocalDateTime midnight = LocalDate.now().atStartOfDay();
+        for (int threshold : new int[]{100, 80}) {
+            if (percent >= threshold) {
+                String emailType = "BUDGET_ALERT_" + threshold;
+                boolean alreadySent = emailLogRepository.existsSuccessfulEmailSince(trip, emailType, midnight);
+                if (!alreadySent) {
+                    try {
+                        emailService.sendBudgetAlertEmail(trip, threshold);
+                        log.info("Sent budget alert ({}%) for trip {}", threshold, trip.getId());
+                    } catch (Exception e) {
+                        log.error("Failed to send budget alert for trip {}", trip.getId(), e);
+                    }
+                }
+                break; // Only send one threshold email per expense add
+            }
+        }
+    }
 }
+

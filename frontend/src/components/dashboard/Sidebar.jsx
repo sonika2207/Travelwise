@@ -82,18 +82,23 @@ const Sidebar = ({ upcomingTrip }) => {
         {/* Logo */}
         <div className="flex items-center gap-[11px] px-5 py-[22px] border-b border-[var(--tw-border-light)] cursor-pointer" onClick={() => navigate('/dashboard')}>
           <div className="w-9 h-9 rounded-[10px] bg-gradient-to-br from-[#4A90D9] to-[#4ECDC4] flex items-center justify-center text-[18px]">✈️</div>
-          <div className="font-serif text-[20px] font-bold text-[var(--tw-text-heading)] tracking-[-0.02em]">Wanderly</div>
+          <div className="font-serif text-[20px] font-bold text-[var(--tw-text-heading)] tracking-[-0.02em]">TravelWise</div>
         </div>
 
         {/* Nav */}
         <div className="text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--tw-text-light)] px-5 pt-4 pb-1.5">Main</div>
-        
+
         {/* Main Sections */}
         {MAIN_NAV.map((item) => {
-          const isActive = item.prefixMatch 
-            ? location.pathname.startsWith(item.prefixMatch)
-            : location.pathname === item.to;
-            
+          const isTripShortcutActive = TRIP_SHORTCUTS.some(shortcut => location.pathname.includes(`/${shortcut.tab}`));
+          
+          let isActive = false;
+          if (item.prefixMatch) {
+            isActive = location.pathname.startsWith(item.prefixMatch) && !isTripShortcutActive;
+          } else {
+            isActive = location.pathname === item.to;
+          }
+
           return (
             <div
               key={item.label}
@@ -110,96 +115,262 @@ const Sidebar = ({ upcomingTrip }) => {
         })}
 
         {/* Trip Shortcuts */}
-        {TRIP_SHORTCUTS.map((item) => (
-          <div
-            key={item.label}
-            onClick={() => handleShortcutClick(item.tab)}
-            className="flex items-center gap-[11px] py-2.5 text-sm font-medium cursor-pointer transition-all text-[var(--tw-text-muted)] border-l-[3px] border-transparent rounded-xl mx-2.5 px-4 hover:bg-[var(--tw-bg-subtle)]"
-          >
-            <span className="text-[16px]">{item.icon}</span> {item.label}
-          </div>
-        ))}
+        {TRIP_SHORTCUTS.map((item) => {
+          const isActive = location.pathname.includes(`/${item.tab}`);
+          return (
+            <div
+              key={item.label}
+              onClick={() => handleShortcutClick(item.tab)}
+              className={`flex items-center gap-[11px] py-2.5 text-sm font-medium cursor-pointer transition-all
+              ${isActive
+                ? 'bg-[var(--tw-active-nav-bg)] text-[var(--tw-active-nav-color)] font-semibold border-l-[3px] border-[var(--tw-active-nav-color)] rounded-r-xl mx-0 pl-[19px] pr-4'
+                : 'text-[var(--tw-text-muted)] border-l-[3px] border-transparent rounded-xl mx-2.5 px-4 hover:bg-[var(--tw-bg-subtle)]'
+              }`}
+            >
+              <span className="text-[16px]">{item.icon}</span> {item.label}
+            </div>
+          );
+        })}
 
+        {/* Bottom section */}
         <div className="mt-auto relative" ref={menuContainerRef}>
-          {/* Account Settings dropdown panel */}
+
+          {/* ── Account popup menu ── */}
           <AnimatePresence>
             {isMenuOpen && (
               <motion.div
-                initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                initial={{ opacity: 0, y: 10, scale: 0.97 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 15, scale: 0.95 }}
+                exit={{ opacity: 0, y: 10, scale: 0.97 }}
                 transition={{ duration: 0.15, ease: 'easeOut' }}
-                className="account-menu"
+                style={{
+                  position: 'absolute',
+                  bottom: 'calc(100% + 8px)',
+                  left: '12px',
+                  right: '12px',
+                  zIndex: 50,
+                  borderRadius: '14px',
+                  background: 'var(--tw-bg-card)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.06)',
+                  overflow: 'hidden',
+                }}
               >
-                <div className="account-menu-header">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#4A90D9] to-[#4ECDC4] flex items-center justify-center text-white text-[13px] font-bold">
-                    {initials}
+                {/* User header */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  padding: '14px 16px',
+                  borderBottom: '1px solid var(--tw-border-light)',
+                }}>
+                  <div style={{
+                    width: '38px', height: '38px', borderRadius: '50%', flexShrink: 0,
+                    background: user?.profilePhotoUrl ? `url(${user.profilePhotoUrl}) center/cover no-repeat` : 'linear-gradient(135deg, #4A90D9, #4ECDC4)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color: '#fff', fontSize: '14px', fontWeight: 700,
+                    border: user?.profilePhotoUrl ? '1px solid var(--tw-border-light)' : 'none'
+                  }}>
+                    {!user?.profilePhotoUrl && initials}
                   </div>
-                  <div className="min-w-0">
-                    <div className="account-menu-name truncate">{user?.name || 'Traveler'}</div>
-                    <div className="account-menu-email truncate">{user?.email || ''}</div>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{
+                      fontSize: '13px', fontWeight: 600,
+                      color: 'var(--tw-text-heading)',
+                      whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                    }}>
+                      {user?.name || 'Traveler'}
+                    </div>
+                    <div style={{
+                      fontSize: '11px', color: 'var(--tw-text-light)',
+                      whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                    }}>
+                      {user?.email || ''}
+                    </div>
                   </div>
                 </div>
-                <div className="account-menu-item" onClick={() => setIsMenuOpen(false)}>
-                  <span className="menu-icon">⚙️</span> Account settings
-                </div>
-                <div className="account-menu-item" onClick={() => setIsMenuOpen(false)}>
-                  <span className="menu-icon">❓</span> Help &amp; support
-                </div>
-                <div className="account-menu-divider"></div>
-                <div
-                  className="account-menu-item danger"
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    setIsLogoutModalOpen(true);
-                  }}
-                >
-                  <span className="menu-icon">🚪</span> Log out
+
+                {/* Menu items */}
+                <div style={{ padding: '6px' }}>
+                  {/* Account settings */}
+                  <div
+                    onClick={() => { setIsMenuOpen(false); navigate('/settings'); }}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '10px',
+                      padding: '9px 10px', borderRadius: '8px', cursor: 'pointer',
+                      fontSize: '13px', fontWeight: 500,
+                      color: 'var(--tw-text-body)',
+                      transition: 'background 0.12s',
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.background = 'var(--tw-bg-subtle)'}
+                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                  >
+                    <span style={{
+                      width: '28px', height: '28px', borderRadius: '7px',
+                      background: 'var(--tw-bg-subtle)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '15px',
+                    }}>⚙️</span>
+                    Account settings
+                  </div>
+
+                  {/* Help & support */}
+                  <div
+                    onClick={() => { setIsMenuOpen(false); navigate('/support'); }}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '10px',
+                      padding: '9px 10px', borderRadius: '8px', cursor: 'pointer',
+                      fontSize: '13px', fontWeight: 500,
+                      color: 'var(--tw-text-body)',
+                      transition: 'background 0.12s',
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.background = 'var(--tw-bg-subtle)'}
+                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                  >
+                    <span style={{
+                      width: '28px', height: '28px', borderRadius: '7px',
+                      background: 'var(--tw-bg-subtle)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '15px',
+                    }}>❓</span>
+                    Help &amp; support
+                  </div>
+
+                  {/* Divider */}
+                  <div style={{ height: '1px', background: 'var(--tw-border-light)', margin: '4px 0' }} />
+
+                  {/* Log out */}
+                  <div
+                    onClick={() => { setIsMenuOpen(false); setIsLogoutModalOpen(true); }}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '10px',
+                      padding: '9px 10px', borderRadius: '8px', cursor: 'pointer',
+                      fontSize: '13px', fontWeight: 500,
+                      color: '#E53E3E',
+                      transition: 'background 0.12s',
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.background = '#FFF5F5'}
+                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                  >
+                    <span style={{
+                      width: '28px', height: '28px', borderRadius: '7px',
+                      background: '#FFF5F5',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '15px',
+                    }}>↩</span>
+                    Log out
+                  </div>
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* Upcoming trip pill */}
+          {/* ── Upcoming trip pill ── */}
           {upcomingTrip && (
             <div
-              className="mx-3 mb-0 p-3.5 rounded-2xl cursor-pointer"
               style={{
+                margin: '0 12px 8px',
+                padding: '12px 14px',
+                borderRadius: '12px',
                 background: 'var(--tw-trip-pill-bg)',
-                border: `1px solid var(--tw-trip-pill-border)`,
+                border: '1px solid var(--tw-trip-pill-border)',
+                cursor: 'pointer',
               }}
               onClick={() => navigate(`/trips/${upcomingTrip.id}`)}
             >
-              <div className="text-[10px] font-bold uppercase tracking-[0.08em] text-[var(--tw-text-muted)] mb-1">Upcoming trip</div>
-              <div className="text-sm font-semibold text-[var(--tw-text-heading)]">
+              <div style={{
+                fontSize: '9px', fontWeight: 700,
+                letterSpacing: '0.1em', textTransform: 'uppercase',
+                color: 'var(--tw-text-light)', marginBottom: '5px',
+              }}>
+                Upcoming Trip
+              </div>
+              <div style={{
+                fontSize: '13px', fontWeight: 600,
+                color: 'var(--tw-text-heading)',
+                display: 'flex', alignItems: 'center', gap: '5px',
+              }}>
                 🌴 {upcomingTrip.destinationCity}, {upcomingTrip.destinationCountry}
               </div>
-              <div className="text-[11px] text-[var(--tw-text-muted)] mt-0.5">
-                {upcomingTrip.daysUntil != null ? `in ${upcomingTrip.daysUntil} days` : ''} · {upcomingTrip.tripStatus}
+              <div style={{
+                fontSize: '11px', color: 'var(--tw-text-muted)', marginTop: '3px',
+                display: 'flex', alignItems: 'center', gap: '4px',
+              }}>
+                {upcomingTrip.daysUntil != null && (
+                  <>
+                    <span style={{
+                      background: 'var(--tw-active-nav-bg)',
+                      color: 'var(--tw-active-nav-color)',
+                      fontSize: '10px', fontWeight: 600,
+                      padding: '1px 6px', borderRadius: '20px',
+                    }}>
+                      in {upcomingTrip.daysUntil} day{upcomingTrip.daysUntil !== 1 ? 's' : ''}
+                    </span>
+                    <span>·</span>
+                  </>
+                )}
+                <span style={{ textTransform: 'uppercase', fontSize: '10px', fontWeight: 600, letterSpacing: '0.05em' }}>
+                  {upcomingTrip.tripStatus}
+                </span>
               </div>
             </div>
           )}
 
-          {/* User row */}
+          {/* ── User row (trigger) ── */}
           <div
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="sidebar-user flex items-center gap-[11px] px-4 py-3.5 border-t border-[var(--tw-border-light)] mt-3"
+            style={{
+              display: 'flex', alignItems: 'center', gap: '10px',
+              padding: '12px 16px',
+              borderTop: '1px solid var(--tw-border-light)',
+              cursor: 'pointer',
+              transition: 'background 0.15s',
+              borderRadius: '0 0 0 0',
+            }}
+            onMouseEnter={e => e.currentTarget.style.background = 'var(--tw-bg-subtle)'}
+            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
           >
-            <div className="w-9 h-9 rounded-full flex-shrink-0 bg-gradient-to-br from-[#4A90D9] to-[#4ECDC4] flex items-center justify-center text-white text-[13px] font-bold">
-              {initials}
+            {/* Avatar */}
+            <div style={{
+              width: '34px', height: '34px', borderRadius: '50%', flexShrink: 0,
+              background: user?.profilePhotoUrl ? `url(${user.profilePhotoUrl}) center/cover no-repeat` : 'linear-gradient(135deg, #4A90D9, #4ECDC4)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: '#fff', fontSize: '12px', fontWeight: 700,
+              border: user?.profilePhotoUrl ? '1px solid var(--tw-border-light)' : 'none'
+            }}>
+              {!user?.profilePhotoUrl && initials}
             </div>
-            <div className="flex-1 min-w-0">
-              <div className="text-[13px] font-semibold text-[var(--tw-text-heading)] truncate">{user?.name || 'Traveler'}</div>
-              <div className="text-[11px] text-[var(--tw-text-light)] truncate">{user?.email || ''}</div>
+
+            {/* Name + email */}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{
+                fontSize: '13px', fontWeight: 600,
+                color: 'var(--tw-text-heading)',
+                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+              }}>
+                {user?.name || 'Traveler'}
+              </div>
+              <div style={{
+                fontSize: '11px', color: 'var(--tw-text-light)',
+                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+              }}>
+                {user?.email || ''}
+              </div>
             </div>
-            <div className="sidebar-user-chevron">
-              {isMenuOpen ? '▲' : '▼'}
+
+            {/* Chevron */}
+            <div style={{
+              fontSize: '10px', color: 'var(--tw-text-light)',
+              transform: isMenuOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+              transition: 'transform 0.2s',
+              flexShrink: 0,
+            }}>
+              ▲
             </div>
           </div>
         </div>
       </motion.div>
 
-      {/* Logout confirmation Modal */}
+      {/* ── Logout confirmation Modal ── */}
       <AnimatePresence>
         {isLogoutModalOpen && (
           <div
@@ -209,32 +380,78 @@ const Sidebar = ({ upcomingTrip }) => {
                 setIsLogoutModalOpen(false);
               }
             }}
+            style={{
+              position: 'fixed', inset: 0, zIndex: 100,
+              background: 'rgba(0,0,0,0.35)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              backdropFilter: 'blur(2px)',
+            }}
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              initial={{ opacity: 0, scale: 0.95, y: 16 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              exit={{ opacity: 0, scale: 0.95, y: 16 }}
               transition={{ duration: 0.2, ease: 'easeOut' }}
-              className="logout-modal"
+              style={{
+                background: 'var(--tw-bg-card)',
+                borderRadius: '20px',
+                padding: '32px 28px 28px',
+                width: '340px',
+                boxShadow: '0 24px 64px rgba(0,0,0,0.18)',
+                textAlign: 'center',
+              }}
             >
-              <div className="logout-modal-icon">🚪</div>
-              <div className="logout-modal-title">Log out of Wanderly?</div>
-              <div className="logout-modal-sub">
+              {/* Icon */}
+              <div style={{
+                width: '56px', height: '56px', borderRadius: '16px',
+                background: '#FFF5F5', margin: '0 auto 16px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: '26px',
+              }}>
+                ↩
+              </div>
+
+              <div style={{
+                fontSize: '17px', fontWeight: 700,
+                color: 'var(--tw-text-heading)', marginBottom: '8px',
+              }}>
+                Log out of TravelWise?
+              </div>
+
+              <div style={{
+                fontSize: '13px', color: 'var(--tw-text-muted)',
+                lineHeight: '1.5', marginBottom: '24px',
+              }}>
                 You'll need to sign in again to access your trips, itineraries, and saved plans.
               </div>
-              <div className="logout-modal-actions">
+
+              <div style={{ display: 'flex', gap: '10px' }}>
                 <button
-                  className="btn btn-secondary"
                   onClick={() => setIsLogoutModalOpen(false)}
+                  style={{
+                    flex: 1, padding: '10px', borderRadius: '10px',
+                    border: '1.5px solid var(--tw-border)',
+                    background: 'transparent',
+                    fontSize: '13px', fontWeight: 600,
+                    color: 'var(--tw-text-body)',
+                    cursor: 'pointer', transition: 'background 0.15s',
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.background = 'var(--tw-bg-subtle)'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                 >
                   Cancel
                 </button>
                 <button
-                  className="btn btn-danger-solid"
-                  onClick={() => {
-                    setIsLogoutModalOpen(false);
-                    logout();
+                  onClick={() => { setIsLogoutModalOpen(false); logout(); }}
+                  style={{
+                    flex: 1, padding: '10px', borderRadius: '10px',
+                    border: 'none', background: '#E53E3E',
+                    fontSize: '13px', fontWeight: 600,
+                    color: '#fff', cursor: 'pointer',
+                    transition: 'background 0.15s',
                   }}
+                  onMouseEnter={e => e.currentTarget.style.background = '#C53030'}
+                  onMouseLeave={e => e.currentTarget.style.background = '#E53E3E'}
                 >
                   Log out
                 </button>

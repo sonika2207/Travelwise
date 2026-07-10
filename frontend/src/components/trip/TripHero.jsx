@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const TripHero = ({ trip, onDelete, activityCount, packingProgress }) => {
   const navigate = useNavigate();
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   // Helper to format date
   const formatDate = (dateString) => {
@@ -40,9 +41,17 @@ const TripHero = ({ trip, onDelete, activityCount, packingProgress }) => {
           </div>
           <div className="trip-hero-actions">
             <div className="trip-hero-action-btn" onClick={() => navigate(`/trips/${trip.id}/edit`)}>&#9998; Edit</div>
-            <div className="trip-hero-action-btn" onClick={onDelete}>
-              &#128465;&#65039; Delete
-            </div>
+            {!confirmDelete ? (
+              <div className="trip-hero-action-btn" onClick={() => setConfirmDelete(true)}>
+                &#128465;&#65039; Delete
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 bg-white/20 px-3 py-1.5 rounded-full backdrop-blur-sm shadow-sm border border-white/20">
+                <span className="text-xs font-semibold text-white">Delete trip?</span>
+                <button onClick={onDelete} className="bg-red-500 hover:bg-red-600 px-3 py-1 text-xs rounded-full transition-colors font-bold text-white">Yes</button>
+                <button onClick={() => setConfirmDelete(false)} className="bg-white/30 hover:bg-white/40 px-3 py-1 text-xs rounded-full transition-colors font-bold text-white">No</button>
+              </div>
+            )}
           </div>
         </div>
         <div>
