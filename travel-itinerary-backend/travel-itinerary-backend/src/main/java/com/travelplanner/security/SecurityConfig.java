@@ -31,7 +31,19 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**", "/api/photos/**").permitAll()
+                .requestMatchers(
+                    "/",
+                    "/favicon.ico",
+                    "/error",
+                    "/swagger-ui/**",
+                    "/swagger-ui.html",
+                    "/v3/api-docs/**",
+                    "/v3/api-docs",
+                    "/actuator/**",
+                    "/auth/**",
+                    "/api/auth/**",
+                    "/api/photos/**"
+                ).permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -44,7 +56,8 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+        // Use allowedOriginPatterns with "*" to allow credentials with any origin (essential for Render/development testing)
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
         configuration.setAllowCredentials(true);

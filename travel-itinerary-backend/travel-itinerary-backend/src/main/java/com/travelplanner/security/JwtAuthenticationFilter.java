@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import org.springframework.util.AntPathMatcher;
 import java.io.IOException;
 
 @Component
@@ -24,6 +25,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final AntPathMatcher pathMatcher = new AntPathMatcher();
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getServletPath();
+        return path.equals("/") ||
+               path.equals("/favicon.ico") ||
+               path.equals("/error") ||
+               pathMatcher.match("/swagger-ui/**", path) ||
+               path.equals("/swagger-ui.html") ||
+               pathMatcher.match("/v3/api-docs/**", path) ||
+               path.equals("/v3/api-docs") ||
+               pathMatcher.match("/actuator/**", path) ||
+               pathMatcher.match("/auth/**", path) ||
+               pathMatcher.match("/api/auth/**", path) ||
+               pathMatcher.match("/api/photos/**", path);
+    }
 
     @Override
     protected void doFilterInternal(
