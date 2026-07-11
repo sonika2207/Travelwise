@@ -51,7 +51,8 @@ export const AuthProvider = ({ children }) => {
       navigate('/dashboard');
       return true;
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Login failed. Please check your credentials.');
+      const errMsg = error.response?.data?.error || error.response?.data?.message || 'Login failed. Please check your credentials.';
+      toast.error(errMsg);
       return false;
     }
   };
@@ -63,7 +64,8 @@ export const AuthProvider = ({ children }) => {
       navigate('/login');
       return true;
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Registration failed.');
+      const errMsg = error.response?.data?.error || error.response?.data?.message || 'Registration failed.';
+      toast.error(errMsg);
       return false;
     }
   };

@@ -1,6 +1,7 @@
 package com.travelplanner.security;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Slf4j
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
@@ -55,6 +57,7 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+        log.info("Initializing CORS configuration with wildcard pattern allowed origins");
         CorsConfiguration configuration = new CorsConfiguration();
         // Use allowedOriginPatterns with "*" to allow credentials with any origin (essential for Render/development testing)
         configuration.setAllowedOriginPatterns(Arrays.asList("*"));
