@@ -60,12 +60,12 @@ public class CurrencyServiceImpl implements CurrencyService {
 
         if (fetchedRate != null) {
             ExchangeRate saved = persistRate(trip, baseCurrency, targetCurrency, fetchedRate);
-            log.info("Exchange rate refreshed: {} → {} = {}", baseCurrency, targetCurrency, fetchedRate);
+            log.info("Exchange rate refreshed: {} â†’ {} = {}", baseCurrency, targetCurrency, fetchedRate);
             return toResponse(saved, false, "Exchange rate refreshed successfully");
         }
 
-        // API failed – fall back to last cached rate
-        log.warn("API call failed. Falling back to cached rate for {} → {}", baseCurrency, targetCurrency);
+        // API failed â€“ fall back to last cached rate
+        log.warn("API call failed. Falling back to cached rate for {} â†’ {}", baseCurrency, targetCurrency);
         return getCachedOrThrow(trip, baseCurrency, targetCurrency,
                 "Exchange rate API is unavailable and no cached rate exists");
     }

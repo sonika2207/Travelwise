@@ -38,9 +38,9 @@ public class EmailScheduler {
             "blizzard", "snow", "hail", "fog", "extreme"
     );
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // Main daily scheduler — runs every day at 08:00 AM server time
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // Main daily scheduler â€” runs every day at 08:00 AM server time
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     @Scheduled(cron = "0 0 8 * * *")
     public void scheduleDailyEmails() {
@@ -56,9 +56,9 @@ public class EmailScheduler {
         log.info("=== Daily email scheduler finished ===");
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // Job 1: Trip reminder — 2 days AND 1 day before departure
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // Job 1: Trip reminder â€” 2 days AND 1 day before departure
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     private void sendTripReminders(LocalDate today) {
         for (int daysAhead : Arrays.asList(2, 1)) {
@@ -68,7 +68,7 @@ public class EmailScheduler {
             for (Trip trip : trips) {
                 String emailType = "TRIP_REMINDER_" + daysAhead + "D";
                 if (alreadySentToday(trip, emailType)) {
-                    log.debug("Skipping {} for trip {} — already sent today", emailType, trip.getId());
+                    log.debug("Skipping {} for trip {} â€” already sent today", emailType, trip.getId());
                     continue;
                 }
                 try {
@@ -81,9 +81,9 @@ public class EmailScheduler {
         }
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // Job 2: Itinerary reminder — sent the day BEFORE the trip starts
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // Job 2: Itinerary reminder â€” sent the day BEFORE the trip starts
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     private void sendItineraryReminders(LocalDate today) {
         // Send for trips starting tomorrow
@@ -92,7 +92,7 @@ public class EmailScheduler {
 
         for (Trip trip : trips) {
             if (alreadySentToday(trip, "TODAY_ITINERARY")) {
-                log.debug("Skipping itinerary email for trip {} — already sent today", trip.getId());
+                log.debug("Skipping itinerary email for trip {} â€” already sent today", trip.getId());
                 continue;
             }
             try {
@@ -104,9 +104,9 @@ public class EmailScheduler {
         }
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // Job 3: Packing reminder — sent 2 days before if items still unpacked
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // Job 3: Packing reminder â€” sent 2 days before if items still unpacked
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     private void sendPackingReminders(LocalDate today) {
         LocalDate targetDate = today.plusDays(2);
@@ -123,9 +123,9 @@ public class EmailScheduler {
                 int unpacked = progress.getTotalItems() - progress.getCheckedItems();
                 if (unpacked > 0) {
                     emailService.sendPackingReminderEmail(trip, unpacked);
-                    log.info("Sent packing reminder for trip {} — {} items unpacked", trip.getId(), unpacked);
+                    log.info("Sent packing reminder for trip {} â€” {} items unpacked", trip.getId(), unpacked);
                 } else {
-                    log.debug("Skipping packing reminder for trip {} — fully packed", trip.getId());
+                    log.debug("Skipping packing reminder for trip {} â€” fully packed", trip.getId());
                 }
             } catch (Exception e) {
                 log.error("Error sending packing reminder for trip {}", trip.getId(), e);
@@ -133,10 +133,10 @@ public class EmailScheduler {
         }
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // Job 4: Weather alert — sent when severe weather detected for upcoming trips
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // Job 4: Weather alert â€” sent when severe weather detected for upcoming trips
     //        Checks trips starting within the next 3 days
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     private void sendWeatherAlerts(LocalDate today) {
         for (int daysAhead = 1; daysAhead <= 3; daysAhead++) {
@@ -162,7 +162,7 @@ public class EmailScheduler {
 
                     if (severeCondition != null) {
                         emailService.sendWeatherAlertEmail(trip, severeCondition);
-                        log.info("Sent weather alert for trip {} — condition: {}", trip.getId(), severeCondition);
+                        log.info("Sent weather alert for trip {} â€” condition: {}", trip.getId(), severeCondition);
                     }
                 } catch (Exception e) {
                     log.error("Error checking weather for trip {}", trip.getId(), e);
@@ -171,9 +171,9 @@ public class EmailScheduler {
         }
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // Job 5: Trip completion email — sent the day AFTER the trip ends
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // Job 5: Trip completion email â€” sent the day AFTER the trip ends
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     private void sendTripCompletionEmails(LocalDate today) {
         // Find trips that ended yesterday
@@ -193,13 +193,13 @@ public class EmailScheduler {
         }
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // Deduplication helper
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     /**
      * Returns true if a successful email of the given type was already sent
-     * for this trip since midnight today — prevents duplicate sends on restarts.
+     * for this trip since midnight today â€” prevents duplicate sends on restarts.
      */
     private boolean alreadySentToday(Trip trip, String emailType) {
         LocalDateTime midnight = LocalDate.now().atStartOfDay();

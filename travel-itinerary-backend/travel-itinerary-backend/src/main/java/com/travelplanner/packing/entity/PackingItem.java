@@ -1,4 +1,4 @@
-﻿package com.travelplanner.packing.entity;
+package com.travelplanner.packing.entity;
 
 import com.travelplanner.trip.entity.Trip;
 import jakarta.persistence.*;

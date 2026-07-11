@@ -1,4 +1,4 @@
-﻿package com.travelplanner.activity.entity;
+package com.travelplanner.activity.entity;
 
 import com.travelplanner.trip.entity.Day;
 import jakarta.persistence.*;

@@ -5,7 +5,7 @@ import com.travelplanner.trip.entity.Trip;
 
 public interface EmailService {
 
-    // ── Existing ─────────────────────────────────────────────────────────────
+    // â”€â”€ Existing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     void sendWelcomeEmail(User user);
 
     void sendTripConfirmationEmail(Trip trip);
@@ -16,7 +16,7 @@ public interface EmailService {
 
     void sendSupportMessage(User user, String message);
 
-    // ── New ───────────────────────────────────────────────────────────────────
+    // â”€â”€ New â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     /** Sent when the user updates a trip's destination or travel dates. */
     void sendTripUpdatedEmail(Trip trip);

@@ -132,7 +132,7 @@ public class TripServiceImpl implements TripService {
         trip = tripRepository.save(trip);
         
         if (datesChanged) {
-            // Clear in-place — orphanRemoval=true handles the DB deletes automatically.
+            // Clear in-place â€” orphanRemoval=true handles the DB deletes automatically.
             // Never call setDays() on a managed entity; it replaces the tracked collection
             // reference and Hibernate throws: "collection with orphan deletion no longer referenced".
             trip.getDays().clear();
@@ -190,7 +190,7 @@ public class TripServiceImpl implements TripService {
 
         dayRepository.saveAll(newDays);
 
-        // For new trips the collection may be null — initialise it.
+        // For new trips the collection may be null â€” initialise it.
         // For existing trips (update flow) the collection is already managed by Hibernate;
         // we must ADD to it, never replace the reference, to avoid the orphanRemoval error.
         if (trip.getDays() == null) {

@@ -35,7 +35,7 @@ public class ExchangeRateClient {
     public BigDecimal fetchRate(String baseCurrency, String targetCurrency) {
         try {
             String url = apiUrl + "/" + baseCurrency.toUpperCase();
-            log.info("Fetching exchange rate: {} → {} from {}", baseCurrency, targetCurrency, url);
+            log.info("Fetching exchange rate: {} â†’ {} from {}", baseCurrency, targetCurrency, url);
 
             @SuppressWarnings("unchecked")
             Map<String, Object> response = restTemplate.getForObject(url, Map.class);
@@ -62,7 +62,7 @@ public class ExchangeRateClient {
             return new BigDecimal(rateObj.toString());
 
         } catch (Exception ex) {
-            log.error("Failed to fetch exchange rate {} → {}: {}", baseCurrency, targetCurrency, ex.getMessage());
+            log.error("Failed to fetch exchange rate {} â†’ {}: {}", baseCurrency, targetCurrency, ex.getMessage());
             return null;
         }
     }

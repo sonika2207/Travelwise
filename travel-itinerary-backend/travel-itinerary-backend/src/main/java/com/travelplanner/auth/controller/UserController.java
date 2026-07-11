@@ -35,7 +35,7 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
 
-    // ── GET /api/user/profile ────────────────────────────────────────────────
+    // â”€â”€ GET /api/user/profile â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     @GetMapping("/profile")
     public ResponseEntity<UserProfileResponse> getProfile(
             @AuthenticationPrincipal UserDetails userDetails) {
@@ -44,7 +44,7 @@ public class UserController {
         return ResponseEntity.ok(toResponse(user));
     }
 
-    // ── PUT /api/user/profile ────────────────────────────────────────────────
+    // â”€â”€ PUT /api/user/profile â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     @PutMapping("/profile")
     public ResponseEntity<UserProfileResponse> updateProfile(
             @AuthenticationPrincipal UserDetails userDetails,
@@ -60,7 +60,7 @@ public class UserController {
         return ResponseEntity.ok(toResponse(user));
     }
 
-    // ── PUT /api/user/password ───────────────────────────────────────────────
+    // â”€â”€ PUT /api/user/password â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     @PutMapping("/password")
     public ResponseEntity<Void> changePassword(
             @AuthenticationPrincipal UserDetails userDetails,
@@ -78,7 +78,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    // ── DELETE /api/user/account ─────────────────────────────────────────────
+    // â”€â”€ DELETE /api/user/account â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     @DeleteMapping("/account")
     public ResponseEntity<Void> deleteAccount(
             @AuthenticationPrincipal UserDetails userDetails) {
@@ -88,7 +88,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    // ── POST /api/user/support ───────────────────────────────────────────────
+    // â”€â”€ POST /api/user/support â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     @PostMapping("/support")
     public ResponseEntity<Void> sendSupportMessage(
             @AuthenticationPrincipal UserDetails userDetails,
@@ -99,7 +99,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    // ── POST /api/user/profile-photo ─────────────────────────────────────────
+    // â”€â”€ POST /api/user/profile-photo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     @PostMapping("/profile-photo")
     public ResponseEntity<String> uploadProfilePhoto(
             @RequestParam("file") MultipartFile file,
@@ -141,7 +141,7 @@ public class UserController {
         }
     }
 
-    // ── helper ───────────────────────────────────────────────────────────────
+    // â”€â”€ helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     private User resolveUser(UserDetails userDetails) {
         return userRepository.findByEmail(userDetails.getUsername())

@@ -22,7 +22,7 @@ public class CurrencyResolver {
     private static final Map<String, String> CITY_TO_COUNTRY = new HashMap<>();
 
     static {
-        // ── Asia ─────────────────────────────────────────────────────────────────
+        // â”€â”€ Asia â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         COUNTRY_TO_CURRENCY.put("INDIA", "INR");
         COUNTRY_TO_CURRENCY.put("INDONESIA", "IDR");
         COUNTRY_TO_CURRENCY.put("JAPAN", "JPY");
@@ -44,7 +44,7 @@ public class CurrencyResolver {
         COUNTRY_TO_CURRENCY.put("TAIWAN", "TWD");
         COUNTRY_TO_CURRENCY.put("MALDIVES", "MVR");
 
-        // ── Middle East ───────────────────────────────────────────────────────────
+        // â”€â”€ Middle East â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         COUNTRY_TO_CURRENCY.put("UNITED ARAB EMIRATES", "AED");
         COUNTRY_TO_CURRENCY.put("UAE", "AED");
         COUNTRY_TO_CURRENCY.put("SAUDI ARABIA", "SAR");
@@ -57,7 +57,7 @@ public class CurrencyResolver {
         COUNTRY_TO_CURRENCY.put("TURKIYE", "TRY");
         COUNTRY_TO_CURRENCY.put("JORDAN", "JOD");
 
-        // ── Europe ────────────────────────────────────────────────────────────────
+        // â”€â”€ Europe â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         COUNTRY_TO_CURRENCY.put("UNITED KINGDOM", "GBP");
         COUNTRY_TO_CURRENCY.put("UK", "GBP");
         COUNTRY_TO_CURRENCY.put("GREAT BRITAIN", "GBP");
@@ -86,7 +86,7 @@ public class CurrencyResolver {
             COUNTRY_TO_CURRENCY.put(c, "EUR");
         }
 
-        // ── Americas ──────────────────────────────────────────────────────────────
+        // â”€â”€ Americas â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         COUNTRY_TO_CURRENCY.put("USA", "USD");
         COUNTRY_TO_CURRENCY.put("UNITED STATES", "USD");
         COUNTRY_TO_CURRENCY.put("UNITED STATES OF AMERICA", "USD");
@@ -100,11 +100,11 @@ public class CurrencyResolver {
         COUNTRY_TO_CURRENCY.put("COLOMBIA", "COP");
         COUNTRY_TO_CURRENCY.put("PERU", "PEN");
 
-        // ── Oceania ───────────────────────────────────────────────────────────────
+        // â”€â”€ Oceania â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         COUNTRY_TO_CURRENCY.put("AUSTRALIA", "AUD");
         COUNTRY_TO_CURRENCY.put("NEW ZEALAND", "NZD");
 
-        // ── Africa ────────────────────────────────────────────────────────────────
+        // â”€â”€ Africa â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         COUNTRY_TO_CURRENCY.put("SOUTH AFRICA", "ZAR");
         COUNTRY_TO_CURRENCY.put("KENYA", "KES");
         COUNTRY_TO_CURRENCY.put("NIGERIA", "NGN");
@@ -114,9 +114,9 @@ public class CurrencyResolver {
         COUNTRY_TO_CURRENCY.put("TANZANIA", "TZS");
         COUNTRY_TO_CURRENCY.put("GHANA", "GHS");
 
-        // ─────────────────────────────────────────────────────────────────────────
-        // City / Province / Island mappings → country (all UPPER)
-        // ─────────────────────────────────────────────────────────────────────────
+        // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // City / Province / Island mappings â†’ country (all UPPER)
+        // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
         // Indonesia (Bali is an island/province, not a country)
         for (String place : new String[]{
@@ -332,8 +332,8 @@ public class CurrencyResolver {
      * Resolve currency from a country or city/region name.
      * Priority:
      *   1. Direct country match
-     *   2. City → country → currency lookup
-     *   3. Return fallback (user-supplied) currency — NEVER throws
+     *   2. City â†’ country â†’ currency lookup
+     *   3. Return fallback (user-supplied) currency â€” NEVER throws
      *
      * @param location    destination country or city name
      * @param fallback    currency code supplied by the user (e.g. "USD")
@@ -350,19 +350,19 @@ public class CurrencyResolver {
         String currency = COUNTRY_TO_CURRENCY.get(normalized);
         if (currency != null) return currency;
 
-        // 2. City → country lookup
+        // 2. City â†’ country lookup
         String countryKey = CITY_TO_COUNTRY.get(normalized);
         if (countryKey != null) {
             currency = COUNTRY_TO_CURRENCY.get(countryKey);
             if (currency != null) return currency;
         }
 
-        // 3. Graceful fallback — use user-supplied currency
+        // 3. Graceful fallback â€” use user-supplied currency
         return (fallback != null && !fallback.isBlank()) ? fallback : "USD";
     }
 
     /**
-     * Backward-compatible single-argument version — falls back to USD.
+     * Backward-compatible single-argument version â€” falls back to USD.
      */
     public String resolveCurrency(String location) {
         return resolveCurrency(location, "USD");

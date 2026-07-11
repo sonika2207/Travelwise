@@ -25,13 +25,13 @@ public class PackingRuleSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) {
         if (packingRuleRepository.count() > 0) {
-            log.info("Packing rules already seeded – skipping.");
+            log.info("Packing rules already seeded â€“ skipping.");
             return;
         }
 
         List<PackingRule> defaultRules = List.of(
 
-            // ---- Temperature – cold ----
+            // ---- Temperature â€“ cold ----
             PackingRule.builder()
                 .conditionType(ConditionType.AVG_TEMP)
                 .operator(Operator.LESS_THAN)
@@ -72,7 +72,7 @@ public class PackingRuleSeeder implements CommandLineRunner {
                 .category("Accessories")
                 .build(),
 
-            // ---- Temperature – hot ----
+            // ---- Temperature â€“ hot ----
             PackingRule.builder()
                 .conditionType(ConditionType.AVG_TEMP)
                 .operator(Operator.GREATER_THAN)
@@ -131,7 +131,7 @@ public class PackingRuleSeeder implements CommandLineRunner {
                 .category("Health & Hygiene")
                 .build(),
 
-            // ---- Trip type – ADVENTURE ----
+            // ---- Trip type â€“ ADVENTURE ----
             PackingRule.builder()
                 .conditionType(ConditionType.TRIP_TYPE)
                 .operator(Operator.EQUAL)
@@ -164,7 +164,7 @@ public class PackingRuleSeeder implements CommandLineRunner {
                 .category("Gear")
                 .build(),
 
-            // ---- Trip type – LEISURE ----
+            // ---- Trip type â€“ LEISURE ----
             PackingRule.builder()
                 .conditionType(ConditionType.TRIP_TYPE)
                 .operator(Operator.EQUAL)
@@ -181,7 +181,7 @@ public class PackingRuleSeeder implements CommandLineRunner {
                 .category("Entertainment")
                 .build(),
 
-            // ---- Trip type – BUSINESS ----
+            // ---- Trip type â€“ BUSINESS ----
             PackingRule.builder()
                 .conditionType(ConditionType.TRIP_TYPE)
                 .operator(Operator.EQUAL)

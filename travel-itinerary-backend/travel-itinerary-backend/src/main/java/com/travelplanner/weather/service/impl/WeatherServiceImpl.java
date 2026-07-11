@@ -64,7 +64,7 @@ public class WeatherServiceImpl implements WeatherService {
         // Delete stale records for this trip
         weatherRepository.deleteByTrip(trip);
 
-        // Decide whether the trip is within forecast range (≤5 days from now)
+        // Decide whether the trip is within forecast range (â‰¤5 days from now)
         boolean useForecast = !trip.getStartDate().isAfter(LocalDate.now().plusDays(5));
 
         List<WeatherData> saved;
@@ -201,7 +201,7 @@ public class WeatherServiceImpl implements WeatherService {
                     .maxTemp(28.0)
                     .humidity(60)
                     .rainChance(20.0)
-                    .description("Typical weather – forecast unavailable")
+                    .description("Typical weather â€“ forecast unavailable")
                     .iconCode("01d")
                     .build();
 

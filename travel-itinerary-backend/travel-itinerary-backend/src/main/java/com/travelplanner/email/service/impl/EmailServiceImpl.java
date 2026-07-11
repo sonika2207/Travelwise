@@ -45,9 +45,9 @@ public class EmailServiceImpl implements EmailService {
 
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("MMM dd, yyyy");
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // 1. Welcome Email
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     @Override
     @Transactional
@@ -72,9 +72,9 @@ public class EmailServiceImpl implements EmailService {
         sendHtml(user.getEmail(), subject, wrapTemplate(subject, content), "WELCOME", null);
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // 2. Trip Confirmation
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     @Override
     @Transactional
@@ -93,9 +93,9 @@ public class EmailServiceImpl implements EmailService {
         sendHtml(user.getEmail(), subject, wrapTemplate(subject, content), "TRIP_CONFIRMATION", trip);
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // 3. Trip Updated
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     @Override
     @Transactional
@@ -114,9 +114,9 @@ public class EmailServiceImpl implements EmailService {
         sendHtml(user.getEmail(), subject, wrapTemplate(subject, content), "TRIP_UPDATED", trip);
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // 4. Trip Reminder (1 or 2 days before)
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     @Override
     @Transactional
@@ -128,11 +128,11 @@ public class EmailServiceImpl implements EmailService {
         List<WeatherResponse> weatherList = weatherService.getWeatherForTrip(trip.getId(), user.getEmail());
 
         String weatherDesc = "Unavailable";
-        String tempStr = "—";
+        String tempStr = "â€”";
         if (weatherList != null && !weatherList.isEmpty()) {
             WeatherResponse w = weatherList.get(0);
             weatherDesc = capitalize(w.getDescription());
-            tempStr = w.getAvgTemp() != null ? w.getAvgTemp() + "°C" : "—";
+            tempStr = w.getAvgTemp() != null ? w.getAvgTemp() + "Â°C" : "â€”";
         }
 
         String content = row("greeting", "Hello <strong>" + user.getName() + "</strong>,") +
@@ -150,9 +150,9 @@ public class EmailServiceImpl implements EmailService {
         sendHtml(user.getEmail(), subject, wrapTemplate(subject, content), "TRIP_REMINDER_" + daysUntil + "D", trip);
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // 5. Packing Reminder
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     @Override
     @Transactional
@@ -183,9 +183,9 @@ public class EmailServiceImpl implements EmailService {
         sendHtml(user.getEmail(), subject, wrapTemplate(subject, content), "PACKING_REMINDER", trip);
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // 6. Weather Alert
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     @Override
     @Transactional
@@ -194,12 +194,12 @@ public class EmailServiceImpl implements EmailService {
         String subject = "Weather Alert for Your Upcoming Trip \u26C8\uFE0F";
 
         List<WeatherResponse> weatherList = weatherService.getWeatherForTrip(trip.getId(), user.getEmail());
-        String tempStr = "—";
-        String rainStr = "—";
+        String tempStr = "â€”";
+        String rainStr = "â€”";
         if (weatherList != null && !weatherList.isEmpty()) {
             WeatherResponse w = weatherList.get(0);
-            tempStr = w.getAvgTemp() != null ? w.getAvgTemp() + "°C" : "—";
-            rainStr = w.getRainChance() != null ? (int)(w.getRainChance() * 100) + "%" : "—";
+            tempStr = w.getAvgTemp() != null ? w.getAvgTemp() + "Â°C" : "â€”";
+            rainStr = w.getRainChance() != null ? (int)(w.getRainChance() * 100) + "%" : "â€”";
         }
 
         String content = row("greeting", "Hello <strong>" + user.getName() + "</strong>,") +
@@ -221,9 +221,9 @@ public class EmailServiceImpl implements EmailService {
         sendHtml(user.getEmail(), subject, wrapTemplate(subject, content), "WEATHER_ALERT", trip);
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // 7. Itinerary Reminder (day before)
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     @Override
     @Transactional
@@ -250,7 +250,7 @@ public class EmailServiceImpl implements EmailService {
             if (!activities.isEmpty()) {
                 activitiesHtml.append(sectionHeader("Tomorrow's Schedule"));
                 for (Activity act : activities) {
-                    String time = act.getStartTime() != null ? act.getStartTime().toString() : "—";
+                    String time = act.getStartTime() != null ? act.getStartTime().toString() : "â€”";
                     String loc = act.getLocation() != null && !act.getLocation().isBlank()
                             ? " @ " + act.getLocation() : "";
                     activitiesHtml.append(detailRow("\uD83D\uDD50 " + time, act.getTitle() + loc));
@@ -262,7 +262,7 @@ public class EmailServiceImpl implements EmailService {
 
         String weatherLine = tomorrowWeather != null
                 ? detailRow("\uD83C\uDF26\uFE0F Weather", capitalize(tomorrowWeather.getDescription())
-                        + ", " + tomorrowWeather.getAvgTemp() + "°C")
+                        + ", " + tomorrowWeather.getAvgTemp() + "Â°C")
                 : "";
 
         String content = row("greeting", "Hello <strong>" + user.getName() + "</strong>,") +
@@ -276,9 +276,9 @@ public class EmailServiceImpl implements EmailService {
         sendHtml(user.getEmail(), subject, wrapTemplate("Tomorrow's Travel Plan \uD83D\uDCC5", content), "TODAY_ITINERARY", trip);
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // 8 & 9. Budget Alert (80% and 100%)
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     @Override
     @Transactional
@@ -297,7 +297,7 @@ public class EmailServiceImpl implements EmailService {
         String budgetStr = trip.getBudget() != null
                 ? (trip.getDestinationCurrency() != null ? trip.getDestinationCurrency() + " " : "")
                   + String.format("%.2f", trip.getBudget())
-                : "—";
+                : "â€”";
         String spentStr = (trip.getDestinationCurrency() != null ? trip.getDestinationCurrency() + " " : "")
                 + totalSpent.setScale(2, RoundingMode.HALF_UP);
         BigDecimal remaining = trip.getBudget() != null
@@ -325,9 +325,9 @@ public class EmailServiceImpl implements EmailService {
         sendHtml(user.getEmail(), subject, wrapTemplate(subject, content), "BUDGET_ALERT_" + percentUsed, trip);
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // 10. Trip Completion
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     @Override
     @Transactional
@@ -344,7 +344,7 @@ public class EmailServiceImpl implements EmailService {
         String budgetStr = trip.getBudget() != null
                 ? (trip.getDestinationCurrency() != null ? trip.getDestinationCurrency() + " " : "")
                   + String.format("%.2f", trip.getBudget())
-                : "—";
+                : "â€”";
         String spentStr = (trip.getDestinationCurrency() != null ? trip.getDestinationCurrency() + " " : "")
                 + totalSpent.setScale(2, RoundingMode.HALF_UP);
 
@@ -377,9 +377,9 @@ public class EmailServiceImpl implements EmailService {
         sendHtml(to, subject, wrapTemplate(subject, content), "SUPPORT_REQUEST", null, user.getEmail());
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // HTML Template Builder
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     private String wrapTemplate(String title, String bodyContent) {
         return "<!DOCTYPE html>" +
@@ -395,7 +395,7 @@ public class EmailServiceImpl implements EmailService {
             // Header
             "<tr><td style='background:linear-gradient(135deg,#4A90D9 0%,#4ECDC4 60%,#6BCB77 100%);" +
             "padding:36px 40px;text-align:center;'>" +
-            "<div style='font-size:28px;font-weight:800;color:#FFFFFF;letter-spacing:-0.5px;'>✈️ TravelWise</div>" +
+            "<div style='font-size:28px;font-weight:800;color:#FFFFFF;letter-spacing:-0.5px;'>âœˆï¸ TravelWise</div>" +
             "<div style='font-size:13px;color:rgba(255,255,255,0.8);margin-top:4px;'>Your Smart Travel Companion</div>" +
             "</td></tr>" +
             // Body
@@ -403,7 +403,7 @@ public class EmailServiceImpl implements EmailService {
             // Footer
             "<tr><td style='background:#F5F3EE;padding:24px 40px;text-align:center;" +
             "border-top:1px solid #E8E2D9;'>" +
-            "<div style='font-size:13px;font-weight:700;color:#4A90D9;'>— The TravelWise Team</div>" +
+            "<div style='font-size:13px;font-weight:700;color:#4A90D9;'>â€” The TravelWise Team</div>" +
             "<div style='font-size:11px;color:#A0AEC0;margin-top:6px;'>You received this email because you have an account on TravelWise.</div>" +
             "</td></tr>" +
             "</table>" +
@@ -411,7 +411,7 @@ public class EmailServiceImpl implements EmailService {
             "</body></html>";
     }
 
-    // ── HTML building helpers ─────────────────────────────────────────────────
+    // â”€â”€ HTML building helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     private String row(String type, String content) {
         return switch (type) {
@@ -468,9 +468,9 @@ public class EmailServiceImpl implements EmailService {
                    : "");
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // Core send method
-    // ─────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     private void sendHtml(String to, String subject, String htmlBody, String type, Trip trip) {
         sendHtml(to, subject, htmlBody, type, trip, null);
@@ -508,10 +508,10 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
-    // ── Utilities ─────────────────────────────────────────────────────────────
+    // â”€â”€ Utilities â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     private String fmt(LocalDate date) {
-        return date != null ? date.format(DATE_FMT) : "—";
+        return date != null ? date.format(DATE_FMT) : "â€”";
     }
 
     private String capitalize(String s) {

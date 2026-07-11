@@ -163,11 +163,11 @@ public class ExpenseServiceImpl implements ExpenseService {
                         .multiply(rate)
                         .setScale(2, RoundingMode.HALF_UP);
             } else {
-                log.debug("No cached exchange rate for {} → {}. Skipping conversion for expense {}.",
+                log.debug("No cached exchange rate for {} â†’ {}. Skipping conversion for expense {}.",
                         baseCurrency, destCurrency, expense.getId());
             }
         } else if (baseCurrency != null && baseCurrency.equalsIgnoreCase(destCurrency)) {
-            // Same currency – conversion is 1:1
+            // Same currency â€“ conversion is 1:1
             rate = BigDecimal.ONE;
             convertedAmount = expense.getAmount();
         }
@@ -193,7 +193,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     /**
      * Checks whether total spending has crossed a budget threshold (80% or 100%)
-     * and sends an alert email if so — but only once per threshold crossing.
+     * and sends an alert email if so â€” but only once per threshold crossing.
      */
     private void checkAndSendBudgetAlert(Trip trip) {
         if (trip.getBudget() == null || trip.getBudget() <= 0) return;
@@ -209,7 +209,7 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .divide(budget, 0, RoundingMode.HALF_UP);
         int percent = percentBD.intValue();
 
-        // Check thresholds in descending order — send the highest applicable one
+        // Check thresholds in descending order â€” send the highest applicable one
         LocalDateTime midnight = LocalDate.now().atStartOfDay();
         for (int threshold : new int[]{100, 80}) {
             if (percent >= threshold) {
