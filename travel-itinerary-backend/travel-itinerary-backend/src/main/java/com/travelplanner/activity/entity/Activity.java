@@ -1,4 +1,4 @@
-package com.travelplanner.activity.entity;
+﻿package com.travelplanner.activity.entity;
 
 import com.travelplanner.trip.entity.Day;
 import jakarta.persistence.*;
@@ -22,6 +22,8 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "day_id", nullable = false)
     private Day day;
@@ -55,3 +57,4 @@ public class Activity {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 }
+

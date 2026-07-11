@@ -1,4 +1,4 @@
-package com.travelplanner.packing.entity;
+﻿package com.travelplanner.packing.entity;
 
 import com.travelplanner.trip.entity.Trip;
 import jakarta.persistence.*;
@@ -21,6 +21,8 @@ public class PackingItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
@@ -44,6 +46,8 @@ public class PackingItem {
     /**
      * The rule that generated this item. Null for custom items.
      */
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "source_rule_id")
     private PackingRule sourceRule;
@@ -52,3 +56,4 @@ public class PackingItem {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 }
+

@@ -1,4 +1,4 @@
-package com.travelplanner.trip.entity;
+﻿package com.travelplanner.trip.entity;
 
 import com.travelplanner.auth.entity.User;
 import jakarta.persistence.*;
@@ -23,6 +23,8 @@ public class Trip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -82,3 +84,4 @@ public class Trip {
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<com.travelplanner.email.entity.EmailLog> emailLogs;
 }
+

@@ -1,4 +1,4 @@
-package com.travelplanner.email.entity;
+﻿package com.travelplanner.email.entity;
 
 import com.travelplanner.trip.entity.Trip;
 import jakarta.persistence.*;
@@ -37,6 +37,8 @@ public class EmailLog {
     @Column(name = "sent_at", nullable = false, updatable = false)
     private LocalDateTime sentAt;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trip_id")
     private Trip trip;
@@ -44,3 +46,4 @@ public class EmailLog {
     @Column(name = "error_message", length = 1000)
     private String errorMessage;
 }
+

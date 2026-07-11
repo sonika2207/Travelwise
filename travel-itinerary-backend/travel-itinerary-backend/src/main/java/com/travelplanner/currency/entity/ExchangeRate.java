@@ -1,4 +1,4 @@
-package com.travelplanner.currency.entity;
+﻿package com.travelplanner.currency.entity;
 
 import com.travelplanner.trip.entity.Trip;
 import jakarta.persistence.*;
@@ -22,6 +22,8 @@ public class ExchangeRate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
@@ -38,3 +40,4 @@ public class ExchangeRate {
     @Column(name = "fetched_at", nullable = false)
     private LocalDateTime fetchedAt;
 }
+

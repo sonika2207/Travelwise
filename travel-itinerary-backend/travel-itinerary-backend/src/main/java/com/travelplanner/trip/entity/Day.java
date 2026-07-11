@@ -1,4 +1,4 @@
-package com.travelplanner.trip.entity;
+﻿package com.travelplanner.trip.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,6 +17,8 @@ public class Day {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
@@ -27,3 +29,4 @@ public class Day {
     @Column(name = "trip_date", nullable = false)
     private LocalDate tripDate;
 }
+
