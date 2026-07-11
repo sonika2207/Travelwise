@@ -1,9 +1,11 @@
 import axios from 'axios';
 
-// The backend is running on http://localhost:8080
-// API endpoints will be like /api/auth/login
+// Centralized Backend URL configuration.
+// Fallbacks to production URL, but can be overridden by VITE_API_BASE_URL env variable.
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://travelwise-backend-q6s1.onrender.com';
+
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: API_BASE_URL,
 });
 
 // Request interceptor for API calls

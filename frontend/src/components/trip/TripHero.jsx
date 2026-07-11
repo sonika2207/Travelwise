@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../../api/axios';
 
 const TripHero = ({ trip, onDelete, activityCount, packingProgress }) => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const TripHero = ({ trip, onDelete, activityCount, packingProgress }) => {
   // Background style handling
   const heroStyle = trip.coverPhotoUrl
     ? {
-      backgroundImage: `url(http://localhost:8080${trip.coverPhotoUrl})`,
+      backgroundImage: `url(${API_BASE_URL}${trip.coverPhotoUrl})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     }
