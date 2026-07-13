@@ -8,13 +8,11 @@ import { packingApi } from '../../api/packingApi';
 import Topbar from '../dashboard/Topbar';
 import TripHero from './TripHero';
 import TripTabs from './TripTabs';
-import { useTrips } from '../../hooks/useTrips';
 
 const TripLayout = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const { trips } = useTrips();
   
   const [trip, setTrip] = useState(null);
   const [loading, setLoading] = useState(true);

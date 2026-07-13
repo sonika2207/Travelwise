@@ -19,7 +19,7 @@ COPY src ./src
 RUN ./mvnw clean package -DskipTests
 
 # Stage 2: Run the application
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
 # Expose port 8080
@@ -28,5 +28,5 @@ EXPOSE 8080
 # Copy the built jar from the builder stage
 COPY --from=builder /app/target/*.jar app.jar
 
-# Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Run the application with optimized settings for Render Free tier (512MB limit)
+ENTRYPOINT ["java", "-XX:+UseSerialGC", "-Xmx350m", "-Xms250m", "-XX:MaxMetaspaceSize=80m", "-jar", "app.jar"]

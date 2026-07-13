@@ -19,8 +19,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.travelplanner.trip.repository.TripRepository;
+import com.travelplanner.auth.repository.UserRepository;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -39,6 +42,8 @@ public class EmailServiceImpl implements EmailService {
     private final PackingService packingService;
     private final WeatherService weatherService;
     private final ActivityRepository activityRepository;
+    private final TripRepository tripRepository;
+    private final UserRepository userRepository;
 
     @Value("${spring.mail.username:noreply@travelwise.com}")
     private String fromEmail;
@@ -50,8 +55,12 @@ public class EmailServiceImpl implements EmailService {
     // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     @Override
+    @Async
     @Transactional
     public void sendWelcomeEmail(User user) {
+        if (user.getId() != null) {
+            user = userRepository.findById(user.getId()).orElse(user);
+        }
         String subject = "Welcome to TravelWise! \uD83C\uDF0D";
 
         String content = row("greeting", "Hello <strong>" + user.getName() + "</strong>,") +
@@ -77,8 +86,12 @@ public class EmailServiceImpl implements EmailService {
     // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     @Override
+    @Async
     @Transactional
     public void sendTripConfirmationEmail(Trip trip) {
+        if (trip.getId() != null) {
+            trip = tripRepository.findById(trip.getId()).orElse(trip);
+        }
         User user = trip.getUser();
         String subject = "Your Trip Has Been Created Successfully! \u2708\uFE0F";
         long duration = ChronoUnit.DAYS.between(trip.getStartDate(), trip.getEndDate()) + 1;
@@ -98,8 +111,12 @@ public class EmailServiceImpl implements EmailService {
     // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     @Override
+    @Async
     @Transactional
     public void sendTripUpdatedEmail(Trip trip) {
+        if (trip.getId() != null) {
+            trip = tripRepository.findById(trip.getId()).orElse(trip);
+        }
         User user = trip.getUser();
         String subject = "Trip Updated Successfully \u270F\uFE0F";
         long duration = ChronoUnit.DAYS.between(trip.getStartDate(), trip.getEndDate()) + 1;
@@ -119,8 +136,12 @@ public class EmailServiceImpl implements EmailService {
     // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     @Override
+    @Async
     @Transactional
     public void sendReminderEmail(Trip trip, int daysUntil) {
+        if (trip.getId() != null) {
+            trip = tripRepository.findById(trip.getId()).orElse(trip);
+        }
         User user = trip.getUser();
         String subject = "Your Trip Starts Soon! \u2708\uFE0F";
 
@@ -155,8 +176,12 @@ public class EmailServiceImpl implements EmailService {
     // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     @Override
+    @Async
     @Transactional
     public void sendPackingReminderEmail(Trip trip, int unpackedCount) {
+        if (trip.getId() != null) {
+            trip = tripRepository.findById(trip.getId()).orElse(trip);
+        }
         User user = trip.getUser();
         long daysUntil = ChronoUnit.DAYS.between(LocalDate.now(), trip.getStartDate());
         String subject = "Packing Reminder \uD83C\uDF92";
@@ -188,8 +213,12 @@ public class EmailServiceImpl implements EmailService {
     // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     @Override
+    @Async
     @Transactional
     public void sendWeatherAlertEmail(Trip trip, String weatherCondition) {
+        if (trip.getId() != null) {
+            trip = tripRepository.findById(trip.getId()).orElse(trip);
+        }
         User user = trip.getUser();
         String subject = "Weather Alert for Your Upcoming Trip \u26C8\uFE0F";
 
@@ -226,8 +255,12 @@ public class EmailServiceImpl implements EmailService {
     // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     @Override
+    @Async
     @Transactional
     public void sendTodayItineraryEmail(Trip trip) {
+        if (trip.getId() != null) {
+            trip = tripRepository.findById(trip.getId()).orElse(trip);
+        }
         User user = trip.getUser();
         String subject = "Tomorrow&rsquo;s Travel Plan \uD83D\uDCC5";
 
@@ -281,8 +314,12 @@ public class EmailServiceImpl implements EmailService {
     // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     @Override
+    @Async
     @Transactional
     public void sendBudgetAlertEmail(Trip trip, int percentUsed) {
+        if (trip.getId() != null) {
+            trip = tripRepository.findById(trip.getId()).orElse(trip);
+        }
         User user = trip.getUser();
         boolean isOver = percentUsed >= 100;
         String subject = isOver
@@ -330,8 +367,12 @@ public class EmailServiceImpl implements EmailService {
     // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     @Override
+    @Async
     @Transactional
     public void sendTripCompletionEmail(Trip trip) {
+        if (trip.getId() != null) {
+            trip = tripRepository.findById(trip.getId()).orElse(trip);
+        }
         User user = trip.getUser();
         String subject = "Thank You for Traveling with TravelWise! \uD83C\uDF0D";
         long duration = ChronoUnit.DAYS.between(trip.getStartDate(), trip.getEndDate()) + 1;
@@ -363,7 +404,11 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    @Async
     public void sendSupportMessage(User user, String message) {
+        if (user.getId() != null) {
+            user = userRepository.findById(user.getId()).orElse(user);
+        }
         String subject = "New Support Request from " + user.getName();
         String to = "travelwiseplanner@gmail.com"; // Support team email
 

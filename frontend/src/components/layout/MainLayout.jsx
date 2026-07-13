@@ -4,7 +4,7 @@ import Sidebar from '../dashboard/Sidebar';
 import { useTrips } from '../../hooks/useTrips';
 
 const MainLayout = () => {
-  const { trips } = useTrips();
+  const { trips, loading, refetch } = useTrips();
 
   // Find nearest upcoming trip for Sidebar pill
   const upcomingTrip = useMemo(() => {
@@ -30,7 +30,7 @@ const MainLayout = () => {
     <div className="flex min-h-screen bg-[var(--tw-bg-app)] text-[var(--tw-text-body)] transition-colors duration-300">
       <Sidebar upcomingTrip={upcomingTrip} />
       <div className="flex-1 flex flex-col min-w-0">
-        <Outlet context={{ upcomingTrip }} />
+        <Outlet context={{ upcomingTrip, trips, loading, refetch }} />
       </div>
     </div>
   );

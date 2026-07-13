@@ -33,6 +33,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthResponse register(RegisterRequest request) {
+        long startTime = System.currentTimeMillis();
         String email = request.getEmail().trim().toLowerCase();
         log.info("Starting user registration for email: {}", email);
         if (userRepository.existsByEmail(email)) {
@@ -61,16 +62,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             log.error("Failed to send welcome email to {}: {}", email, e.getMessage());
         }
 
-        return AuthResponse.builder()
+        AuthResponse response = AuthResponse.builder()
                 .token(jwtToken)
                 .name(user.getName())
                 .email(user.getEmail())
                 .profilePhotoUrl(user.getProfilePhotoUrl())
                 .build();
+                
+        long duration = System.currentTimeMillis() - startTime;
+        log.info("User Registration execution time: {} ms", duration);
+        return response;
     }
 
     @Override
     public AuthResponse login(LoginRequest request) {
+        long startTime = System.currentTimeMillis();
         String email = request.getEmail().trim().toLowerCase();
         log.info("Login attempt for user: {}", email);
         try {
@@ -96,11 +102,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         log.info("User {} logged in successfully, token generated", email);
 
-        return AuthResponse.builder()
+        AuthResponse response = AuthResponse.builder()
                 .token(jwtToken)
                 .name(user.getName())
                 .email(user.getEmail())
                 .profilePhotoUrl(user.getProfilePhotoUrl())
                 .build();
+                
+        long duration = System.currentTimeMillis() - startTime;
+        log.info("Login execution time: {} ms", duration);
+        return response;
     }
 }

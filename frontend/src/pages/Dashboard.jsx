@@ -7,14 +7,11 @@ import FilterTabs from '../components/dashboard/FilterTabs';
 import TripGrid from '../components/dashboard/TripGrid';
 import LoadingSkeleton from '../components/dashboard/LoadingSkeleton';
 import EmptyState from '../components/dashboard/EmptyState';
-import { useTrips } from '../hooks/useTrips';
 import { motion } from 'framer-motion';
 import { useOutletContext } from 'react-router-dom';
 
 const Dashboard = () => {
-  const context = useOutletContext();
-  const upcomingTrip = context?.upcomingTrip;
-  const { trips, loading, refetch } = useTrips();
+  const { upcomingTrip, trips, loading, refetch } = useOutletContext();
   const [activeTab, setActiveTab] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
 

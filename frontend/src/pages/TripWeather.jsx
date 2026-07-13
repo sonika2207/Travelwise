@@ -19,6 +19,7 @@ const WeatherIcon = ({ code = '', size = 'sm' }) => {
       alt={c}
       width={dim}
       height={dim}
+      loading="lazy"
       style={{ display: 'inline-block', objectFit: 'contain' }}
       onError={(e) => {
         e.currentTarget.style.display = 'none';

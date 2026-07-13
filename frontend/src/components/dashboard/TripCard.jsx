@@ -73,6 +73,7 @@ const TripCard = ({ trip, index, onNavigate, onRefresh }) => {
             src={trip.coverPhotoUrl}
             alt={trip.destinationCity}
             className="absolute inset-0 w-full h-full object-cover"
+            loading="lazy"
           />
         )}
         {/* Overlay */}

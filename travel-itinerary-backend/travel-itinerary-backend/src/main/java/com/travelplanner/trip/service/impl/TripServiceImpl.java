@@ -16,6 +16,7 @@ import com.travelplanner.email.service.EmailService;
 import com.travelplanner.photo.service.PhotoService;
 import com.travelplanner.currency.util.CurrencyResolver;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TripServiceImpl implements TripService {
 
     private final TripRepository tripRepository;
@@ -39,6 +41,7 @@ public class TripServiceImpl implements TripService {
     @Override
     @Transactional
     public TripResponse createTrip(TripRequest request, String userEmail) {
+        long startTime = System.currentTimeMillis();
         validateDates(request.getStartDate(), request.getEndDate());
         User user = getUserByEmail(userEmail);
 
@@ -65,19 +68,22 @@ public class TripServiceImpl implements TripService {
         trip = tripRepository.save(trip);
         createDaysForTrip(trip);
         
-        // Auto-fetch photo
+        // Auto-fetch photo in the background (asynchronously)
         photoService.fetchTripCoverPhotoInternal(trip.getId());
-        // Reload trip to get the updated photo
-        trip = tripRepository.findById(trip.getId()).orElse(trip);
         
         // Send confirmation email
         emailService.sendTripConfirmationEmail(trip);
         
-        return mapToTripResponse(trip);
+        TripResponse response = mapToTripResponse(trip);
+        long duration = System.currentTimeMillis() - startTime;
+        log.info("Trip Creation execution time: {} ms", duration);
+        return response;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public TripResponse getTripById(Long id, String userEmail) {
+        long startTime = System.currentTimeMillis();
         User user = getUserByEmail(userEmail);
         Trip trip = tripRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Trip not found"));
@@ -86,15 +92,23 @@ public class TripServiceImpl implements TripService {
             throw new ForbiddenException("You are not allowed to access this trip");
         }
         
-        return mapToTripResponse(trip);
+        TripResponse response = mapToTripResponse(trip);
+        long duration = System.currentTimeMillis() - startTime;
+        log.info("Trip Retrieval (getTripById) execution time: {} ms", duration);
+        return response;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TripSummaryResponse> getAllTrips(String userEmail) {
+        long startTime = System.currentTimeMillis();
         User user = getUserByEmail(userEmail);
-        return tripRepository.findByUser(user).stream()
+        List<TripSummaryResponse> response = tripRepository.findByUser(user).stream()
                 .map(this::mapToTripSummaryResponse)
                 .collect(Collectors.toList());
+        long duration = System.currentTimeMillis() - startTime;
+        log.info("Trip Retrieval (getAllTrips) execution time: {} ms", duration);
+        return response;
     }
 
     @Override
