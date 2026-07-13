@@ -29,4 +29,4 @@ EXPOSE 8080
 COPY --from=builder /app/target/*.jar app.jar
 
 # Run the application with optimized settings for Render Free tier (512MB limit)
-ENTRYPOINT ["java", "-XX:+UseSerialGC", "-Xmx350m", "-Xms250m", "-XX:MaxMetaspaceSize=80m", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Xmx256m", "-XX:+UseSerialGC", "-jar", "app.jar"]
