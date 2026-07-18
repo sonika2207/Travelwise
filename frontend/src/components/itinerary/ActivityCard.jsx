@@ -58,8 +58,44 @@ const ActivityCard = ({ activity, onEdit, onDelete }) => {
           </div>
         </div>
         <div style={{ display: 'flex', gap: '6px' }}>
-          <div className="btn-icon" onClick={() => onEdit(activity)}>&#9998;</div>
-          <div className="btn-icon" onClick={() => onDelete(activity.id)}>&#128465;&#65039;</div>
+          <div
+            className="btn-icon"
+            onClick={() => onEdit(activity)}
+            style={{
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '32px',
+              height: '32px',
+              borderRadius: '8px',
+              backgroundColor: 'var(--tw-btn-icon-bg, #F5F3EE)',
+              border: '1px solid var(--tw-btn-icon-border, #E8E2D9)',
+              color: 'var(--tw-text-muted, #718096)',
+              transition: 'all 0.15s ease'
+            }}
+          >
+            &#9998;
+          </div>
+          <div
+            className="btn-icon"
+            onClick={() => onDelete(activity.id)}
+            style={{
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '32px',
+              height: '32px',
+              borderRadius: '8px',
+              backgroundColor: 'var(--tw-btn-icon-bg, #F5F3EE)',
+              border: '1px solid var(--tw-btn-icon-border, #E8E2D9)',
+              color: 'var(--tw-text-muted, #718096)',
+              transition: 'all 0.15s ease'
+            }}
+          >
+            &#128465;&#65039;
+          </div>
         </div>
       </div>
     </div>
