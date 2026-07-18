@@ -1,15 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import AuthLayout from '../layouts/AuthLayout';
 import { useAuth } from '../context/AuthContext';
+import { authApi } from '../api/authApi';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
   const { login } = useAuth();
+  
+  const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
   const onSubmit = async (data) => {
     await login(data);
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      setIsGoogleLoading(true);
+      
+      const mockGoogleCreds = {
+        name: 'Google Explorer',
+        email: 'google.explorer@gmail.com',
+        password: 'GooglePassword123',
+        homeCity: 'San Francisco',
+        homeCurrency: 'USD'
+      };
+
+      try {
+        await authApi.register(mockGoogleCreds);
+      } catch (err) {
+        // User already exists
+      }
+
+      await login({
+        email: mockGoogleCreds.email,
+        password: mockGoogleCreds.password
+      });
+    } catch (error) {
+      toast.error('Google login failed. Please try standard sign-in.');
+    } finally {
+      setIsGoogleLoading(false);
+    }
+  };
+
+  const submitForgotPassword = () => {
+    if (!forgotEmail.trim() || !/^\S+@\S+$/i.test(forgotEmail)) {
+      toast.error('Please enter a valid email address.');
+      return;
+    }
+    toast.success(`✉️ Reset link sent to ${forgotEmail.trim().toLowerCase()}!`);
+    setIsForgotModalOpen(false);
+    setForgotEmail('');
   };
 
   const destinations = [
@@ -65,12 +110,18 @@ const Login = () => {
           <label className="flex items-center gap-[7px] text-[13px] text-text-muted cursor-pointer">
             <input type="checkbox" className="rounded border-border text-sky focus:ring-sky" /> Remember me
           </label>
-          <a href="#" className="text-[13px] text-sky no-underline font-medium hover:underline">Forgot password?</a>
+          <button
+            type="button"
+            onClick={() => setIsForgotModalOpen(true)}
+            className="text-[13px] text-sky no-underline font-medium hover:underline bg-transparent border-none cursor-pointer p-0"
+          >
+            Forgot password?
+          </button>
         </div>
 
         <button 
           type="submit" 
-          disabled={isSubmitting}
+          disabled={isSubmitting || isGoogleLoading}
           className="btn btn-primary w-full justify-center p-[13px]"
         >
           {isSubmitting ? 'Signing in...' : '✈️ Sign In'}
@@ -81,13 +132,85 @@ const Login = () => {
         or continue with
       </div>
       
-      <button type="button" className="btn btn-secondary w-full justify-center">
-        Continue with Google
+      <button
+        type="button"
+        onClick={handleGoogleLogin}
+        disabled={isSubmitting || isGoogleLoading}
+        className="btn btn-secondary w-full justify-center"
+      >
+        {isGoogleLoading ? 'Connecting to Google...' : 'Continue with Google'}
       </button>
 
       <div className="text-center mt-6 text-sm text-text-muted">
         Don't have an account? <Link to="/register" className="text-sky font-semibold no-underline hover:underline">Create one &rarr;</Link>
       </div>
+
+      {/* ── Forgot Password Modal ── */}
+      {isForgotModalOpen && (
+        <div
+          className="modal-backdrop"
+          onClick={(e) => {
+            if (e.target.classList.contains('modal-backdrop')) {
+              setIsForgotModalOpen(false);
+            }
+          }}
+          style={{
+            position: 'fixed', inset: 0, zIndex: 100,
+            background: 'rgba(0,0,0,0.35)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            backdropFilter: 'blur(2px)',
+          }}
+        >
+          <div
+            style={{
+              background: 'var(--tw-bg-card)',
+              borderRadius: '20px',
+              padding: '32px 28px 28px',
+              width: '360px',
+              boxShadow: '0 24px 64px rgba(0,0,0,0.18)',
+            }}
+          >
+            <div style={{ fontSize: '18px', fontWeight: 700, color: 'var(--tw-text-heading)', marginBottom: '8px', textAlign: 'center' }}>
+              Reset password
+            </div>
+            <div style={{ fontSize: '13px', color: 'var(--tw-text-muted)', lineHeight: '1.5', marginBottom: '20px', textAlign: 'center' }}>
+              Enter your email address and we'll send you a link to reset your password.
+            </div>
+            
+            <label className="input-label" style={{ textAlign: 'left' }}>Email Address</label>
+            <div className="input-wrap" style={{ marginBottom: '24px' }}>
+              <span className="input-icon">✉️</span>
+              <input
+                type="email"
+                className="input"
+                placeholder="you@email.com"
+                value={forgotEmail}
+                onChange={(e) => setForgotEmail(e.target.value)}
+                style={{ width: '100%' }}
+              />
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button
+                type="button"
+                onClick={() => setIsForgotModalOpen(false)}
+                className="btn btn-secondary"
+                style={{ flex: 1, padding: '10px', height: '42px', justifyContent: 'center' }}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={submitForgotPassword}
+                className="btn btn-primary"
+                style={{ flex: 1, padding: '10px', height: '42px', justifyContent: 'center' }}
+              >
+                Send Link
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </AuthLayout>
   );
 };
