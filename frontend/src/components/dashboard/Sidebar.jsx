@@ -72,10 +72,7 @@ const Sidebar = ({ upcomingTrip }) => {
 
   return (
     <>
-      <motion.div
-        initial={{ x: -260, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+      <div
         className="flex flex-col flex-shrink-0 sticky top-0 h-screen bg-[var(--tw-bg-sidebar)] border-r border-[var(--tw-border-light)]"
         style={{ width: '260px', zIndex: 30 }}
       >
@@ -368,7 +365,7 @@ const Sidebar = ({ upcomingTrip }) => {
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* ── Logout confirmation Modal ── */}
       <AnimatePresence>
