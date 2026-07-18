@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { useParams, Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, Outlet, useNavigate, useLocation, useOutletContext } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { tripApi } from '../../api/tripApi';
 import { dayApi } from '../../api/dayApi';
@@ -13,6 +13,7 @@ const TripLayout = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const { refetch } = useOutletContext();
   
   const [trip, setTrip] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -71,6 +72,9 @@ const TripLayout = () => {
     try {
       await tripApi.deleteTrip(id);
       toast.success('Trip deleted successfully');
+      if (refetch) {
+        await refetch();
+      }
       navigate('/dashboard');
     } catch (error) {
       toast.error('Failed to delete trip');

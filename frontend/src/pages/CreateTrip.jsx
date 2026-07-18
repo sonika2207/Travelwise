@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useOutletContext } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axiosInstance from '../api/axios';
 import { motion } from 'framer-motion';
 
 import Topbar from '../components/dashboard/Topbar';
-import { useTrips } from '../hooks/useTrips';
 
 const CreateTrip = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const isEditMode = Boolean(id);
-  const { trips } = useTrips();
+  const { trips, refetch } = useOutletContext();
   
   const [formData, setFormData] = useState({
     tripName: '',
@@ -139,6 +138,9 @@ const CreateTrip = () => {
       }
 
       toast.success(isEditMode ? `✈️ "${formData.tripName}" updated successfully!` : `✈️ "${formData.tripName}" created successfully!`);
+      if (refetch) {
+        await refetch();
+      }
       navigate(`/trips/${newTrip.id}`);
     } catch (error) {
       console.error('Create trip error:', error);
