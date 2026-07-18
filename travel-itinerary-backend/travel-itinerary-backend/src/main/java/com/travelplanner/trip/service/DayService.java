@@ -23,7 +23,7 @@ public class DayService {
         Trip trip = tripRepository.findById(tripId)
                 .orElseThrow(() -> new ResourceNotFoundException("Trip not found"));
 
-        if (!trip.getUser().getEmail().equals(userEmail)) {
+        if (!trip.getUser().getEmail().equalsIgnoreCase(userEmail)) {
             throw new RuntimeException("Unauthorized to access this trip's days");
         }
 
