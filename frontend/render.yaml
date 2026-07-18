@@ -1,0 +1,13 @@
+# Render Blueprint Specification for TravelWise Frontend
+# Placed in the frontend directory to configure the static site deployment
+services:
+  - type: static
+    name: travelwise-frontend
+    env: static
+    buildCommand: npm run build
+    publishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+        action: rewrite
