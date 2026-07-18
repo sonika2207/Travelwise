@@ -36,4 +36,7 @@ public interface EmailService {
 
     /** Sent the day after a trip ends as a thank-you / completion summary. */
     void sendTripCompletionEmail(Trip trip);
+
+    /** Sent when the user requests a password reset link. */
+    void sendPasswordResetEmail(User user, String resetLink);
 }

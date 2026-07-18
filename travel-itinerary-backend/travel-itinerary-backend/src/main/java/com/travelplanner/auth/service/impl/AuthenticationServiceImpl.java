@@ -1,9 +1,9 @@
 package com.travelplanner.auth.service.impl;
 
-import com.travelplanner.auth.dto.AuthResponse;
-import com.travelplanner.auth.dto.LoginRequest;
-import com.travelplanner.auth.dto.RegisterRequest;
+import com.travelplanner.auth.dto.*;
+import com.travelplanner.auth.entity.PasswordResetToken;
 import com.travelplanner.auth.entity.User;
+import com.travelplanner.auth.repository.PasswordResetTokenRepository;
 import com.travelplanner.auth.repository.UserRepository;
 import com.travelplanner.auth.service.AuthenticationService;
 import com.travelplanner.exception.AuthenticationException;
@@ -12,6 +12,10 @@ import com.travelplanner.security.JwtService;
 import com.travelplanner.email.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDateTime;
+import java.util.UUID;
+import com.travelplanner.exception.ResourceNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +34,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final EmailService emailService;
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Override
     public AuthResponse register(RegisterRequest request) {
@@ -112,5 +117,55 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         long duration = System.currentTimeMillis() - startTime;
         log.info("Login execution time: {} ms", duration);
         return response;
+    }
+
+    @Override
+    @Transactional
+    public void forgotPassword(ForgotPasswordRequest request) {
+        String email = request.getEmail().trim().toLowerCase();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User with this email does not exist"));
+
+        // Clean up old tokens
+        passwordResetTokenRepository.deleteByUser(user);
+
+        // Generate token (expires in 1 hour)
+        String token = UUID.randomUUID().toString();
+        PasswordResetToken resetToken = PasswordResetToken.builder()
+                .token(token)
+                .user(user)
+                .expiryDate(LocalDateTime.now().plusHours(1))
+                .used(false)
+                .build();
+
+        passwordResetTokenRepository.save(resetToken);
+
+        // Send email
+        String resetLink = "https://travelwise-bifj.onrender.com/reset-password?token=" + token;
+        emailService.sendPasswordResetEmail(user, resetLink);
+        log.info("Password reset token generated and email dispatched to user: {}", email);
+    }
+
+    @Override
+    @Transactional
+    public void resetPassword(ResetPasswordRequest request) {
+        PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(request.getToken())
+                .orElseThrow(() -> new ResourceNotFoundException("Invalid or expired reset token"));
+
+        if (resetToken.isUsed()) {
+            throw new IllegalArgumentException("This reset token has already been used");
+        }
+
+        if (resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("This reset token has expired");
+        }
+
+        User user = resetToken.getUser();
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+
+        resetToken.setUsed(true);
+        passwordResetTokenRepository.save(resetToken);
+        log.info("Successfully reset password for user: {}", user.getEmail());
     }
 }

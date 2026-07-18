@@ -14,6 +14,7 @@ import './styles/theme.css';
 // Lazy load page-level routes to reduce initial bundle size
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
+const ResetPassword = lazy(() => import('./pages/ResetPassword'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const MyTrips = lazy(() => import('./pages/MyTrips'));
 const CreateTrip = lazy(() => import('./pages/CreateTrip'));
@@ -43,6 +44,7 @@ function App() {
                 <Route path="/" element={<Navigate to="/dashboard" replace />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
                 
                 <Route element={<ProtectedRoute />}>
                   <Route element={<MainLayout />}>

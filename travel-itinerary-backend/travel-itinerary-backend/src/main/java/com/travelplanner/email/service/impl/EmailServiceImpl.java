@@ -81,6 +81,25 @@ public class EmailServiceImpl implements EmailService {
         sendHtml(user.getEmail(), subject, wrapTemplate(subject, content), "WELCOME", null);
     }
 
+    @Override
+    @Async
+    @Transactional
+    public void sendPasswordResetEmail(User user, String resetLink) {
+        if (user.getId() != null) {
+            user = userRepository.findById(user.getId()).orElse(user);
+        }
+        String subject = "Reset your TravelWise password \uD83D\uDD12";
+
+        String content = row("greeting", "Hello <strong>" + user.getName() + "</strong>,") +
+                row("text", "We received a request to reset your password for your TravelWise account. Click the button below to reset it:") +
+                row("button", "<div style=\"text-align: center; margin: 24px 0;\"><a href=\"" + resetLink + "\" style=\"display: inline-block; padding: 12px 24px; background-color: #4A90D9; color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: bold;\">Reset Password</a></div>") +
+                row("text", "If you did not request a password reset, you can safely ignore this email. This link will expire in 1 hour.") +
+                row("text", "If the button above does not work, copy and paste this URL into your browser:") +
+                row("text", "<code style=\"word-break: break-all; background-color: #f5f3ee; padding: 4px 8px; border-radius: 4px;\">" + resetLink + "</code>");
+
+        sendHtml(user.getEmail(), subject, wrapTemplate(subject, content), "PASSWORD_RESET", null);
+    }
+
     // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // 2. Trip Confirmation
     // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€

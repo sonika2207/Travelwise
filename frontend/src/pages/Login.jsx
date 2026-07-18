@@ -47,14 +47,19 @@ const Login = () => {
     }
   };
 
-  const submitForgotPassword = () => {
+  const submitForgotPassword = async () => {
     if (!forgotEmail.trim() || !/^\S+@\S+$/i.test(forgotEmail)) {
       toast.error('Please enter a valid email address.');
       return;
     }
-    toast.success(`✉️ Reset link sent to ${forgotEmail.trim().toLowerCase()}!`);
-    setIsForgotModalOpen(false);
-    setForgotEmail('');
+    try {
+      await authApi.forgotPassword(forgotEmail.trim().toLowerCase());
+      toast.success(`✉️ Reset link sent to ${forgotEmail.trim().toLowerCase()}!`);
+      setIsForgotModalOpen(false);
+      setForgotEmail('');
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.response?.data?.error || 'Failed to send reset link.');
+    }
   };
 
   const destinations = [
