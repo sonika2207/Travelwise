@@ -72,14 +72,12 @@ const TripItinerary = () => {
   };
 
   const handleDelete = async (activityId) => {
-    if (window.confirm('Delete this activity?')) {
-      try {
-        await activityApi.deleteActivity(activityId);
-        toast.success('Activity deleted');
-        setActivities(prev => prev.filter(a => a.id !== activityId));
-      } catch (error) {
-        toast.error('Failed to delete activity');
-      }
+    try {
+      await activityApi.deleteActivity(activityId);
+      toast.success('Activity deleted');
+      setActivities(prev => prev.filter(a => a.id !== activityId));
+    } catch (error) {
+      toast.error('Failed to delete activity');
     }
   };
 
