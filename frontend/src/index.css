@@ -64,6 +64,17 @@
     @apply bg-bg-subtle text-text-body border-[1.5px] border-border;
   }
 
+  .btn-icon {
+    background-color: var(--tw-btn-icon-bg);
+    border: 1px solid var(--tw-btn-icon-border);
+    @apply w-8 h-8 rounded-lg flex items-center justify-center text-text-muted cursor-pointer transition-colors;
+  }
+
+  .btn-icon:hover {
+    background-color: var(--tw-btn-icon-hover);
+    @apply text-text-heading;
+  }
+
   .input-label {
     @apply block text-[13px] font-medium text-text-muted mb-1.5 tracking-[0.01em];
   }
